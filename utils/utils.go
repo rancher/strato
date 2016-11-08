@@ -2,6 +2,7 @@ package utils
 
 import (
 	"archive/tar"
+	"bytes"
 	"compress/gzip"
 	"fmt"
 	"io"
@@ -10,6 +11,8 @@ import (
 	"strings"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/joshwget/lay/config"
+	"gopkg.in/yaml.v2"
 )
 
 func ExtractTar(reader io.Reader, target string) error {
@@ -65,10 +68,10 @@ func ExtractTar(reader io.Reader, target string) error {
 	return nil
 }
 
-func IsPackage(reader io.Reader) (bool, error) {
+func FindPackage(reader io.Reader) (*config.Package, error) {
 	gzipReader, err := gzip.NewReader(reader)
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 	tarReader := tar.NewReader(gzipReader)
 	for {
@@ -77,15 +80,21 @@ func IsPackage(reader io.Reader) (bool, error) {
 			if err == io.EOF {
 				break
 			}
-			return false, err
+			return nil, err
 		}
 		filename := header.Name
-		if strings.Contains(filename, "_magic") {
-			return true, nil
+		if strings.Contains(filename, config.Filename) {
+			buf := new(bytes.Buffer)
+			buf.ReadFrom(tarReader)
+			var pkg config.Package
+			if err := yaml.Unmarshal(buf.Bytes(), &pkg); err != nil {
+				return nil, err
+			}
+			return &pkg, nil
 		}
-		if filename > "_magic" {
-			return false, nil
+		if filename > config.Filename {
+			return nil, nil
 		}
 	}
-	return false, nil
+	return nil, nil
 }
