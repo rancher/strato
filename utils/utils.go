@@ -41,6 +41,11 @@ func ExtractTar(reader io.Reader, target string) error {
 			}
 		case tar.TypeReg:
 			log.Debugf("File: %s", filename)
+			if _, err := os.Stat(filename); err == nil {
+				if err := os.Remove(filename); err != nil {
+					return err
+				}
+			}
 			writer, err := os.Create(filename)
 			if err != nil {
 				return err
@@ -52,11 +57,21 @@ func ExtractTar(reader io.Reader, target string) error {
 			writer.Close()
 		case tar.TypeLink:
 			log.Debugf("Hard link: %s", filename)
+			if _, err := os.Stat(filename); err == nil {
+				if err := os.Remove(filename); err != nil {
+					return err
+				}
+			}
 			if err := os.Link(header.Linkname, filename); err != nil {
 				return err
 			}
 		case tar.TypeSymlink:
 			log.Debugf("Soft link: %s", filename)
+			if _, err := os.Stat(filename); err == nil {
+				if err := os.Remove(filename); err != nil {
+					return err
+				}
+			}
 			if err := os.Symlink(header.Linkname, filename); err != nil {
 				return err
 			}
