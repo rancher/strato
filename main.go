@@ -13,10 +13,19 @@ func main() {
 	app := cli.NewApp()
 	app.Name = os.Args[0]
 	app.Flags = []cli.Flag{
+		cli.BoolFlag{
+			Name: "verbose",
+		},
 		cli.StringFlag{
 			Name:  "registry",
 			Value: "https://registry-1.docker.io/",
 		},
+	}
+	app.Before = func(c *cli.Context) error {
+		if c.GlobalBool("verbose") {
+			log.SetLevel(log.DebugLevel)
+		}
+		return nil
 	}
 	app.Commands = []cli.Command{
 		{
