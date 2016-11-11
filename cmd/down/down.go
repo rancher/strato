@@ -2,6 +2,7 @@ package down
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/urfave/cli"
@@ -23,10 +24,18 @@ func Action(c *cli.Context) error {
 	}
 	hub.Logf = registry.Quiet
 
-	return down(hub, dir, image)
+	var skip *regexp.Regexp
+	if c.String("skip") != "" {
+		skip, err = regexp.Compile(c.String("skip"))
+		if err != nil {
+			return err
+		}
+	}
+
+	return down(hub, dir, skip, image)
 }
 
-func down(hub *registry.Registry, dir string, images ...string) error {
+func down(hub *registry.Registry, dir string, skip *regexp.Regexp, images ...string) error {
 	for _, image := range images {
 		manifest, err := hub.Manifest(image, "latest")
 		if err != nil {
@@ -59,7 +68,7 @@ func down(hub *registry.Registry, dir string, images ...string) error {
 			reader.Close()
 
 			for _, dependency := range pkg.Dependencies {
-				if err = down(hub, dir, dependency); err != nil {
+				if err = down(hub, dir, skip, dependency); err != nil {
 					return err
 				}
 			}
@@ -70,7 +79,7 @@ func down(hub *registry.Registry, dir string, images ...string) error {
 			}
 
 			log.Infof("Installing package %s", image)
-			if err = utils.ExtractTar(reader, dir); err != nil {
+			if err = utils.ExtractTar(reader, dir, skip); err != nil {
 				return err
 			}
 			reader.Close()

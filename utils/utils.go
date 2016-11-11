@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"path"
+	"regexp"
 	"strings"
 
 	log "github.com/Sirupsen/logrus"
@@ -15,7 +16,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func ExtractTar(reader io.Reader, target string) error {
+func ExtractTar(reader io.Reader, target string, skip *regexp.Regexp) error {
 	gzipReader, err := gzip.NewReader(reader)
 	if err != nil {
 		return err
@@ -32,6 +33,10 @@ func ExtractTar(reader io.Reader, target string) error {
 
 		filename := header.Name
 		filename = path.Join(target, header.Name)
+
+		if skip != nil && skip.MatchString(filename) {
+			continue
+		}
 
 		switch header.Typeflag {
 		case tar.TypeDir:

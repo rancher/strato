@@ -37,6 +37,9 @@ func main() {
 					Name:  "dir",
 					Value: "/",
 				},
+				cli.StringFlag{
+					Name:  "skip",
+				},
 			},
 		},
 		{
