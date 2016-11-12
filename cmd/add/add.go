@@ -1,4 +1,4 @@
-package down
+package add
 
 import (
 	"fmt"
@@ -32,10 +32,10 @@ func Action(c *cli.Context) error {
 		}
 	}
 
-	return down(hub, dir, skip, image)
+	return add(hub, dir, skip, image)
 }
 
-func down(hub *registry.Registry, dir string, skip *regexp.Regexp, images ...string) error {
+func add(hub *registry.Registry, dir string, skip *regexp.Regexp, images ...string) error {
 	for _, image := range images {
 		manifest, err := hub.Manifest(image, "latest")
 		if err != nil {
@@ -68,7 +68,7 @@ func down(hub *registry.Registry, dir string, skip *regexp.Regexp, images ...str
 			reader.Close()
 
 			for _, dependency := range pkg.Dependencies {
-				if err = down(hub, dir, skip, dependency); err != nil {
+				if err = add(hub, dir, skip, dependency); err != nil {
 					return err
 				}
 			}

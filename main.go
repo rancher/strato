@@ -4,7 +4,7 @@ import (
 	"os"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/joshwget/lay/cmd/down"
+	"github.com/joshwget/lay/cmd/add"
 	"github.com/joshwget/lay/cmd/inspect"
 	"github.com/urfave/cli"
 )
@@ -29,16 +29,16 @@ func main() {
 	}
 	app.Commands = []cli.Command{
 		{
-			Name:     "down",
+			Name:     "add",
 			HideHelp: true,
-			Action:   down.Action,
+			Action:   add.Action,
 			Flags: []cli.Flag{
 				cli.StringFlag{
 					Name:  "dir",
 					Value: "/",
 				},
 				cli.StringFlag{
-					Name:  "skip",
+					Name: "skip",
 				},
 			},
 		},
