@@ -1,1 +1,1 @@
-# lay
+# strato

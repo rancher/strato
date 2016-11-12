@@ -10,7 +10,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/docker/distribution/digest"
 	"github.com/heroku/docker-registry-client/registry"
-	"github.com/joshwget/lay/utils"
+	"github.com/joshwget/strato/utils"
 )
 
 func Action(c *cli.Context) error {

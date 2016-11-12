@@ -4,8 +4,8 @@ import (
 	"os"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/joshwget/lay/cmd/add"
-	"github.com/joshwget/lay/cmd/inspect"
+	"github.com/joshwget/strato/cmd/add"
+	"github.com/joshwget/strato/cmd/inspect"
 	"github.com/urfave/cli"
 )
 

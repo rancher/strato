@@ -1,8 +1,8 @@
-lay:
+strato:
 	CGO_ENABLED=0 go build -tags netgo -a -v
 
-image: lay
-	docker build -t lay .
+image: strato
+	docker build -t strato .
 
 run:
-	docker run -it lay sh
+	docker run -it strato sh

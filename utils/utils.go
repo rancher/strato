@@ -12,7 +12,7 @@ import (
 	"strings"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/joshwget/lay/config"
+	"github.com/joshwget/strato/config"
 	"gopkg.in/yaml.v2"
 )
 
