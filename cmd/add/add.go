@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"sync"
 
 	"github.com/urfave/cli"
 
@@ -31,11 +32,17 @@ func Action(c *cli.Context) error {
 		}
 	}
 
+	var installs sync.WaitGroup
 	for _, image := range c.Args() {
-		if err = add(hub, dir, skip, image); err != nil {
-			return nil
-		}
+		installs.Add(1)
+		go func(image string) {
+			defer installs.Done()
+			if err = add(hub, dir, skip, image); err != nil {
+				panic(err)
+			}
+		}(image)
 	}
+	installs.Wait()
 
 	return nil
 }
