@@ -14,7 +14,6 @@ import (
 )
 
 func Action(c *cli.Context) error {
-	image := c.Args()[0]
 	registryURL := c.GlobalString("registry")
 	dir := c.String("dir")
 
@@ -32,7 +31,13 @@ func Action(c *cli.Context) error {
 		}
 	}
 
-	return add(hub, dir, skip, image)
+	for _, image := range c.Args() {
+		if err = add(hub, dir, skip, image); err != nil {
+			return nil
+		}
+	}
+
+	return nil
 }
 
 func add(hub *registry.Registry, dir string, skip *regexp.Regexp, images ...string) error {
