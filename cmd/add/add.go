@@ -16,6 +16,7 @@ import (
 
 func Action(c *cli.Context) error {
 	registryURL := c.GlobalString("registry")
+	user := c.GlobalString("user")
 	dir := c.String("dir")
 
 	hub, err := registry.New(registryURL, "", "")
@@ -34,6 +35,9 @@ func Action(c *cli.Context) error {
 
 	var installs sync.WaitGroup
 	for _, image := range c.Args() {
+		if !strings.Contains(image, "/") {
+			image = fmt.Sprintf("%s/%s", user, image)
+		}
 		installs.Add(1)
 		go func(image string) {
 			defer installs.Done()

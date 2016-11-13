@@ -20,6 +20,10 @@ func main() {
 			Name:  "registry",
 			Value: "https://registry-1.docker.io/",
 		},
+		cli.StringFlag{
+			Name:  "user",
+			Value: "joshwget",
+		},
 	}
 	app.Before = func(c *cli.Context) error {
 		if c.GlobalBool("verbose") {
