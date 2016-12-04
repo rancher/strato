@@ -1,0 +1,29 @@
+#!/bin/bash
+set -e
+
+BASE=packages
+ORG=stratopkg
+
+cd $(dirname $0)/..
+
+mkdir -p dist
+echo > dist/images
+
+for i in $BASE/0[1-9]*; do
+    name=$(echo ${i} | cut -f2 -d-)
+    tag="${name}"
+
+    echo Building ${tag} from ${i}
+    if [ -e ${i}/prebuild.sh ]; then
+        ${i}/prebuild.sh
+    fi
+
+    if dapper -d --build -f ${i}/Dockerfile -- -t ${name} ${i}; then
+        docker tag ${name} ${ORG}/${tag}
+    elif [ "$?" != "42" ]; then
+        exit 1
+    else
+        echo "Skipping ${tag}"
+    fi
+    echo ${tag} >> dist/images
+done
