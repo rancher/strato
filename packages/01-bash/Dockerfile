@@ -7,6 +7,7 @@ RUN tar xf /bash*
 RUN cd /bash* \
     && ./configure \
     --prefix=/usr \
+    --bindir=/bin \
     --without-bash-malloc \
     && make
 RUN echo '{}' > /_package.yml && cd /bash* \
