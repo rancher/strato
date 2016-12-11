@@ -1,0 +1,15 @@
+FROM ubuntu:16.10
+RUN apt-get update && apt-get install -y build-essential pkg-config wget
+ENV VERSION 6.0
+RUN wget https://ftp.gnu.org/gnu/ncurses/ncurses-${VERSION}.tar.gz
+RUN tar xf /ncurses*
+RUN cd /ncurses* \
+    && CPPFLAGS=-P ./configure \
+    --with-shared   \
+    --without-debug \
+    --without-ada   \
+    --enable-widec  \
+    --enable-overwrite \
+    && make
+RUN echo '{}' > /_package.yml && cd /ncurses* \
+    && make install
