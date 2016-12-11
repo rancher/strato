@@ -32,11 +32,10 @@ func ExtractTar(reader io.Reader, target string, skip *regexp.Regexp) error {
 		}
 
 		filename := header.Name
-		filename = path.Join(target, header.Name)
-
 		if skip != nil && skip.MatchString(filename) {
 			continue
 		}
+		filename = path.Join(target, header.Name)
 
 		switch header.Typeflag {
 		case tar.TypeDir:
