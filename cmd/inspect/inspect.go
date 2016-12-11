@@ -1,7 +1,10 @@
 package inspect
 
 import (
+	"archive/tar"
+	"compress/gzip"
 	"fmt"
+	"io"
 	"strings"
 
 	"github.com/urfave/cli"
@@ -45,14 +48,36 @@ func Action(c *cli.Context) error {
 		if err != nil {
 			return err
 		}
-		reader.Close()
-		if pkg != nil {
-			log.Infof("License: %s", pkg.License)
-			log.Infof("Version: %s", pkg.Version)
-			log.Infof("License: %s", pkg.Description)
-			log.Infof("Dependencies: %s", strings.Join(pkg.Dependencies, ","))
-			return nil
+		if pkg == nil {
+			continue
 		}
+		log.Infof("License: %s", pkg.License)
+		log.Infof("Version: %s", pkg.Version)
+		log.Infof("License: %s", pkg.Description)
+		log.Infof("Dependencies: %s", strings.Join(pkg.Dependencies, ","))
+
+		reader, err = hub.DownloadLayer(image, digest)
+		if err != nil {
+			return err
+		}
+
+		gzipReader, err := gzip.NewReader(reader)
+		if err != nil {
+			return err
+		}
+		tarReader := tar.NewReader(gzipReader)
+		for {
+			header, err := tarReader.Next()
+			if err != nil {
+				if err == io.EOF {
+					break
+				}
+				return err
+			}
+			log.Infoln(header.Name)
+		}
+
+		reader.Close()
 	}
 	return nil
 }
