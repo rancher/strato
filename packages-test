@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+docker run strato sh -c 'strato add dhcpcd && dhcpcd --version'
+docker run strato sh -c 'strato add iproute2 && ss'
+docker run strato sh -c 'strato add iptables && iptables --version'
+docker run strato sh -c 'strato add jq && jq --version'
+docker run strato sh -c 'strato add m4 && m4 --version'
+docker run strato sh -c 'strato add make && make --version'
+#docker run strato sh -c 'strato add util-linux && agetty --version'
