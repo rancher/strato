@@ -7,8 +7,6 @@ COPY strato /sbin/
 ADD assets/gccbase.tar /
 ADD assets/libgcc.tar /
 ADD assets/libc6.tar /
-ADD assets/libssl.tar /
-ADD assets/openssl.tar /
 RUN strato add busybox
 # TODO: permission on these?
 #RUN mkdir -p /bin /sbin /usr/bin /usr/sbin
