@@ -3,6 +3,7 @@ set -e
 
 docker run strato sh -c 'strato add curl && curl --version'
 docker run strato sh -c 'strato add dhcpcd && dhcpcd --version'
+docker run strato sh -c 'strato add e2fsprogs && which resize2fs'
 docker run strato sh -c 'strato add iproute2 && ss'
 docker run strato sh -c 'strato add iptables && iptables --version'
 docker run strato sh -c 'strato add jq && jq --version'
