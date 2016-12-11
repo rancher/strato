@@ -2,12 +2,13 @@
 set -e
 
 BASE=packages
-ORG=stratopkg
+ORG=joshwget
 
 cd $(dirname $0)/..
 
 mkdir -p dist
 echo > dist/images
+echo > dist/release-images
 
 for i in $BASE/0[1-9]*; do
     name=$(echo ${i} | cut -f2 -d-)
@@ -26,4 +27,5 @@ for i in $BASE/0[1-9]*; do
         echo "Skipping ${tag}"
     fi
     echo ${tag} >> dist/images
+    echo "docker push ${ORG}/${tag}" >> dist/release-images
 done
