@@ -7,7 +7,7 @@ COPY strato /sbin/
 ADD assets/gccbase.tar /
 ADD assets/libgcc.tar /
 ADD assets/libc6.tar /
-RUN strato add busybox zlib libressl
+RUN strato add busybox
 # TODO: permission on these?
 #RUN mkdir -p /bin /sbin /usr/bin /usr/sbin
 #RUN touch /etc/sudoers
