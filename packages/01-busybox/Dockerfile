@@ -1,6 +1,6 @@
-FROM alpine
-RUN apk --no-cache add gcc make curl linux-headers musl-dev
-RUN curl https://busybox.net/downloads/busybox-1.25.1.tar.bz2 > busybox.tar.bz2
+FROM ubuntu:16.10
+RUN apt-get update && apt-get install -y build-essential wget
+RUN wget https://busybox.net/downloads/busybox-1.25.1.tar.bz2
 COPY .config /
 RUN tar xf busybox* \
     && cd busybox* \

@@ -1,6 +1,6 @@
-FROM alpine
-RUN apk --no-cache add gcc make musl-dev linux-headers curl
-RUN curl https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.5.0.tar.gz > /libressl.tar.gz
+FROM ubuntu:16.10
+RUN apt-get update && apt-get install -y build-essential wget
+RUN wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.5.0.tar.gz
 RUN tar xf /libressl*
 RUN cd /libressl* \
     && ./configure \
@@ -12,5 +12,5 @@ RUN cd /libressl* \
 # TODO: remove 1.0.0 first and fix weird permission error
 RUN echo '{}' > /_package.yml && cd /libressl* \
     && make install \
-    && rm /usr/lib/libcrypto.so.1.0.0 \
+    #&& rm /usr/lib/libcrypto.so.1.0.0 \
     && ln -s /usr/lib/libcrypto.so.38.0.1 /usr/lib/libcrypto.so.1.0.0
