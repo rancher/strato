@@ -32,6 +32,9 @@ func ExtractTar(reader io.Reader, target string, skip *regexp.Regexp) error {
 		}
 
 		filename := header.Name
+		if filename == "_package.yml" {
+			continue
+		}
 		if skip != nil && skip.MatchString(filename) {
 			continue
 		}
