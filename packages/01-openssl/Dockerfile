@@ -1,4 +1,4 @@
-FROM ubuntu:16.10
+FROM ubuntu:16.04
 # Borrow OpenSSL from Ubuntu for now
 COPY libssl.tar /
 COPY openssl.tar /

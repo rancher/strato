@@ -1,5 +1,5 @@
 # TODO: remove dependency on attr
-FROM ubuntu:16.10
+FROM ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 RUN apt-get update && apt-get install -y perl acl-dev libpopt-dev
 ENV VERSION 3.1.2

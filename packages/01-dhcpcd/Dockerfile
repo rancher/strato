@@ -1,4 +1,4 @@
-FROM ubuntu:16.10
+FROM ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 ENV VERSION 6.11.5
 RUN wget http://roy.marples.name/downloads/dhcpcd/dhcpcd-${VERSION}.tar.xz

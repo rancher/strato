@@ -1,4 +1,4 @@
-FROM ubuntu:16.10
+FROM ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 ENV VERSION 7.51.0
 RUN wget http://curl.haxx.se/download/curl-${VERSION}.tar.bz2

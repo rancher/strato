@@ -1,4 +1,4 @@
-FROM ubuntu:16.10
+FROM ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 ENV VERSION 5.2.2
 RUN wget http://tukaani.org/xz/xz-${VERSION}.tar.gz

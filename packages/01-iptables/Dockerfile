@@ -1,4 +1,4 @@
-FROM ubuntu:16.10
+FROM ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 RUN apt-get update && apt-get install -y bison flex iptables-dev libnftnl-dev libmnl-dev
 ENV VERSION 1.6.0
