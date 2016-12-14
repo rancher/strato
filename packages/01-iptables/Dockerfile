@@ -14,5 +14,7 @@ RUN cd /iptables* \
     --enable-libipq \
     --enable-shared \
     && make
-RUN echo '{}' > /_package.yml && cd /iptables* \
+
+COPY strato.yml /
+RUN cd /iptables* \
     && make install

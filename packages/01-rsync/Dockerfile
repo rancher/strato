@@ -12,5 +12,7 @@ RUN cd /rsync* \
     --mandir=/usr/share/man \
     --localstatedir=/var \
     && make
-RUN echo '{}' > /_package.yml && cd /rsync* \
+
+COPY strato.yml /
+RUN cd /rsync* \
     && make install

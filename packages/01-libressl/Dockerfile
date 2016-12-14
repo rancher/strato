@@ -9,8 +9,10 @@ RUN cd /libressl* \
     --mandir=/usr/share/man \
     --localstatedir=/var \
     && make
+
+COPY strato.yml /
 # TODO: remove 1.0.0 first and fix weird permission error
-RUN echo '{}' > /_package.yml && cd /libressl* \
+RUN cd /libressl* \
     && make install \
     #&& rm /usr/lib/libcrypto.so.1.0.0 \
     && ln -s /usr/lib/libcrypto.so.38.0.1 /usr/lib/libcrypto.so.1.0.0

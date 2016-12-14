@@ -6,5 +6,7 @@ RUN tar xf /jq*
 RUN cd /jq* \
     && ./configure --prefix=/usr --disable-docs \
     && make
-RUN echo '{}' > /_package.yml && cd /jq* \
+
+COPY strato.yml /
+RUN cd /jq* \
     && make prefix=/usr install

@@ -14,5 +14,7 @@ RUN cd /curl* \
     --disable-ldap \
     --with-pic \
     && make
-RUN echo '{}' > /_package.yml && cd /curl* \
+
+COPY strato.yml /
+RUN cd /curl* \
     && make install

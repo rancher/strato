@@ -15,5 +15,7 @@ RUN cd /sudo* \
     --without-skey \
     --with-passprompt="[sudo] password for %p: " \
     && make
-RUN echo '{}' > /_package.yml && cd /sudo* \
+
+COPY strato.yml /
+RUN cd /sudo* \
     && make install

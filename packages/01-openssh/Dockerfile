@@ -22,5 +22,7 @@ RUN cd /openssh* \
     --with-ssl-engine \
     --without-pam \
     && make
-RUN echo '{}' > /_package.yml && cd /openssh* \
+
+COPY strato.yml /
+RUN cd /openssh* \
     && make install

@@ -13,7 +13,9 @@ RUN cd /kmod* \
     --with-zlib \
     --with-xz \
     && make
-RUN echo '{}' > /_package.yml && cd /kmod* \
+
+COPY strato.yml /
+RUN cd /kmod* \
     && make install \
     && for i in lsmod rmmod insmod modinfo modprobe depmod; do [ -e /bin/$i ] && rm /bin/$i; ln -s kmod /bin/$i; done \
     && for i in lsmod modinfo; do [ -e /bin/$i ] && rm /bin/$i; ln -s kmod "$pkgdir"/bin/$i; done

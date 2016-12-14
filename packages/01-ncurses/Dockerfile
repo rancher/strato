@@ -11,5 +11,7 @@ RUN cd /ncurses* \
     --enable-widec  \
     --enable-overwrite \
     && make
-RUN echo '{}' > /_package.yml && cd /ncurses* \
+
+COPY strato.yml /
+RUN cd /ncurses* \
     && make install

@@ -1,7 +1,7 @@
 package config
 
 const (
-	Filename = "_package.yml"
+	Filename = "strato.yml"
 )
 
 type Package struct {

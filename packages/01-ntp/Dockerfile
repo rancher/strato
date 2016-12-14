@@ -8,5 +8,7 @@ RUN cd /ntp* \
     --prefix=/usr \
     --bindir=/usr/sbin \
     && make
-RUN echo '{}' > /_package.yml && cd /ntp* \
+
+COPY strato.yml /
+RUN cd /ntp* \
     && make install

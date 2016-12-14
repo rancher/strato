@@ -11,5 +11,7 @@ RUN cd /make* \
     --infodir=/usr/share/info \
     --disable-nls \
     && make
-RUN echo '{}' > /_package.yml && cd /make* \
+
+COPY strato.yml /
+RUN cd /make* \
     && make install

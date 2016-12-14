@@ -1,0 +1,6 @@
+exclude:
+- usr/share
+- usr/src
+subpackages:
+  dev:
+  - usr/include

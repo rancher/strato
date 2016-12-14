@@ -17,5 +17,7 @@ RUN cd /eudev* \
     --enable-kmod \
     --exec-prefix=/ \
     && make
-RUN echo '{}' > /_package.yml && cd /eudev* \
+
+COPY strato.yml /
+RUN cd /eudev* \
     && make sharepkgconfigdir=/usr/lib/pkgconfig install

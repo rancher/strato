@@ -7,9 +7,9 @@ RUN tar xf busybox* \
     && mv /.config .config \
     && make silentoldconfig \
     && make
-RUN echo '{}' > /_package.yml \
-    && cd /busybox* \
-    && make install \
+
+COPY strato.yml /
+RUN cd /busybox* \
     && install -m 755 busybox /bin/busybox \
     && cd / \
     && for i in $(busybox --list-full); do [ -e $i ] && busybox rm $i; busybox ln -s /bin/busybox $i; done

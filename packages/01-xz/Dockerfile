@@ -13,5 +13,7 @@ RUN cd /xz* \
     --disable-rpath \
     --disable-werror \
     && make
-RUN echo '{}' > /_package.yml && cd /xz* \
+
+COPY strato.yml /
+RUN cd /xz* \
     && make install

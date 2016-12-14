@@ -2,13 +2,15 @@ FROM ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 RUN apt-get update && apt-get install -y zlib1g-dev liblzma-dev
 ENV VERSION 4.4
-RUN wget https://ftp.gnu.org/gnu/bash/bash-${VERSION}.tar.gz
-RUN tar xf /bash*
-RUN cd /bash* \
+RUN wget -P /usr/src/ https://ftp.gnu.org/gnu/bash/bash-${VERSION}.tar.gz
+RUN cd /usr/src && tar xf bash*
+RUN cd /usr/src/bash* \
     && ./configure \
     --prefix=/usr \
     --bindir=/bin \
     --without-bash-malloc \
     && make
-RUN echo '{}' > /_package.yml && cd /bash* \
+
+COPY strato.yml /
+RUN cd /usr/src/bash* \
     && make install

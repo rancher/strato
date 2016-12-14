@@ -7,5 +7,7 @@ RUN cd /m4* \
     && ./configure \
     --prefix=/usr \
     && make
-RUN echo '{}' > /_package.yml && cd /m4* \
+
+COPY strato.yml /
+RUN cd /m4* \
     && make install

@@ -10,5 +10,7 @@ RUN cd /util-linux* \
     --without-python               \
     --without-systemdsystemunitdir \
     && make
-RUN echo '{}' > /_package.yml && cd /util-linux* \
+
+COPY strato.yml /
+RUN cd /util-linux* \
     && make install
