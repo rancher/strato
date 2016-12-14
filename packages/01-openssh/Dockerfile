@@ -1,5 +1,4 @@
-#FROM ubuntu:16.04
-FROM joshwget/openssl
+FROM ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 RUN apt-get update && apt-get install -y zlib1g-dev libssl-dev
 ENV VERSION 7.3p1
