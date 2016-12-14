@@ -25,14 +25,6 @@ func Action(c *cli.Context) error {
 	}
 	hub.Logf = registry.Quiet
 
-	var skip *regexp.Regexp
-	if c.String("skip") != "" {
-		skip, err = regexp.Compile(c.String("skip"))
-		if err != nil {
-			return err
-		}
-	}
-
 	var installs sync.WaitGroup
 	for _, image := range c.Args() {
 		if !strings.Contains(image, "/") {
@@ -41,7 +33,7 @@ func Action(c *cli.Context) error {
 		installs.Add(1)
 		go func(image string) {
 			defer installs.Done()
-			if err = add(hub, dir, skip, image); err != nil {
+			if err = add(hub, dir, image); err != nil {
 				panic(err)
 			}
 		}(image)
@@ -51,8 +43,15 @@ func Action(c *cli.Context) error {
 	return nil
 }
 
-func add(hub *registry.Registry, dir string, skip *regexp.Regexp, images ...string) error {
+func add(hub *registry.Registry, dir string, images ...string) error {
 	for _, image := range images {
+		var subpackage string
+		imageSplit := strings.SplitN(image, "%", 2)
+		if len(imageSplit) > 1 {
+			image = imageSplit[0]
+			subpackage = imageSplit[1]
+		}
+
 		manifest, err := hub.Manifest(image, "latest")
 		if err != nil {
 			return err
@@ -84,9 +83,42 @@ func add(hub *registry.Registry, dir string, skip *regexp.Regexp, images ...stri
 			reader.Close()
 
 			for _, dependency := range pkg.Dependencies {
-				if err = add(hub, dir, skip, dependency); err != nil {
+				if err = add(hub, dir, dependency); err != nil {
 					return err
 				}
+			}
+
+			var whitelist []*regexp.Regexp
+			var blacklist []*regexp.Regexp
+			if whitelistItems, ok := pkg.Subpackages[subpackage]; ok {
+				// Only install whitelisted for subpackages
+				for _, whitelistItem := range whitelistItems {
+					whitelistRegex, err := regexp.Compile(whitelistItem)
+					if err != nil {
+						return err
+					}
+					whitelist = append(whitelist, whitelistRegex)
+				}
+			} else {
+				// Blacklist the union of all subpackage whitelists for regular packages
+				var union []*regexp.Regexp
+				for _, whitelistItems := range pkg.Subpackages {
+					for _, whitelistItem := range whitelistItems {
+						whitelistRegex, err := regexp.Compile(whitelistItem)
+						if err != nil {
+							return err
+						}
+						union = append(union, whitelistRegex)
+					}
+				}
+				blacklist = union
+			}
+			for _, exclude := range pkg.Exclude {
+				excludeRegex, err := regexp.Compile(exclude)
+				if err != nil {
+					return err
+				}
+				blacklist = append(blacklist, excludeRegex)
 			}
 
 			reader, err = hub.DownloadLayer(image, digest)
@@ -95,7 +127,7 @@ func add(hub *registry.Registry, dir string, skip *regexp.Regexp, images ...stri
 			}
 
 			log.Infof("Installing package %s", image)
-			if err = utils.ExtractTar(reader, dir, skip); err != nil {
+			if err = utils.ExtractTar(reader, dir, whitelist, blacklist); err != nil {
 				return err
 			}
 			reader.Close()

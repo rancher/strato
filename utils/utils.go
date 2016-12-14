@@ -16,7 +16,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func ExtractTar(reader io.Reader, target string, skip *regexp.Regexp) error {
+func ExtractTar(reader io.Reader, target string, whitelist, blacklist []*regexp.Regexp) error {
 	gzipReader, err := gzip.NewReader(reader)
 	if err != nil {
 		return err
@@ -32,10 +32,27 @@ func ExtractTar(reader io.Reader, target string, skip *regexp.Regexp) error {
 		}
 
 		filename := header.Name
-		if filename == "_package.yml" {
+		if filename == config.Filename {
 			continue
 		}
-		if skip != nil && skip.MatchString(filename) {
+		if len(whitelist) > 0 {
+			passes := false
+			for _, r := range whitelist {
+				if r.MatchString(filename) {
+					passes = true
+				}
+			}
+			if !passes {
+				continue
+			}
+		}
+		passes := true
+		for _, r := range blacklist {
+			if r.MatchString(filename) {
+				passes = false
+			}
+		}
+		if !passes {
 			continue
 		}
 		filename = path.Join(target, header.Name)

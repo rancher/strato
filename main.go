@@ -41,11 +41,6 @@ func main() {
 					Name:  "dir",
 					Value: "/",
 				},
-				cli.StringFlag{
-					Name: "skip",
-					// TODO: this is a hack to fix e2fsprogs
-					Value: "usr/share/man*",
-				},
 			},
 		},
 		{
