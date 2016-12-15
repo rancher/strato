@@ -1,9 +1,10 @@
 FROM ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 ENV VERSION 5.2.2
-RUN wget http://tukaani.org/xz/xz-${VERSION}.tar.gz
-RUN tar xf /xz*
-RUN cd /xz* \
+ENV LDFLAGS -s
+RUN wget -P /usr/src/ http://tukaani.org/xz/xz-${VERSION}.tar.gz
+RUN cd /usr/src/ && tar xf xz*
+RUN cd /usr/src/xz* \
     && ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
@@ -15,5 +16,5 @@ RUN cd /xz* \
     && make
 
 COPY strato.yml /
-RUN cd /xz* \
+RUN cd /usr/src/xz* \
     && make install

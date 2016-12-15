@@ -2,9 +2,10 @@ FROM ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 RUN apt-get update && apt-get install -y gperf libglib2.0-dev libkmod-dev
 ENV VERSION 3.2
-RUN wget http://dev.gentoo.org/~blueness/eudev/eudev-${VERSION}.tar.gz
-RUN tar xf /eudev*
-RUN cd /eudev* \
+ENV LDFLAGS -s
+RUN wget -P /usr/src/ http://dev.gentoo.org/~blueness/eudev/eudev-${VERSION}.tar.gz
+RUN cd /usr/src/ && tar xf eudev*
+RUN cd /usr/src/eudev* \
     && ./configure \
     --sysconfdir=/etc \
     --with-rootprefix= \
@@ -19,5 +20,5 @@ RUN cd /eudev* \
     && make
 
 COPY strato.yml /
-RUN cd /eudev* \
+RUN cd /usr/src/eudev* \
     && make sharepkgconfigdir=/usr/lib/pkgconfig install

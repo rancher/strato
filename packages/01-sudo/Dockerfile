@@ -1,9 +1,10 @@
 FROM ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 ENV VERSION 1.8.18p1
-RUN wget https://www.sudo.ws/dist/sudo-${VERSION}.tar.gz
-RUN tar xf /sudo*
-RUN cd /sudo* \
+ENV LDFLAGS -s
+RUN wget -P /usr/src/ https://www.sudo.ws/dist/sudo-${VERSION}.tar.gz
+RUN cd /usr/src/ && tar xf sudo*
+RUN cd /usr/src/sudo* \
     && ./configure \
     --prefix=/usr \
     --libexecdir=/usr/lib \
@@ -17,5 +18,5 @@ RUN cd /sudo* \
     && make
 
 COPY strato.yml /
-RUN cd /sudo* \
+RUN cd /usr/src/sudo* \
     && make install

@@ -2,4 +2,10 @@ subpackages:
   dev:
   - usr/include
   doc:
+  - usr/share/doc
+  - usr/share/info
   - usr/share/man
+  - usr/share/et
+  - usr/share/ss
+  - usr/bin/compile_et
+  - usr/bin/mk_cmds

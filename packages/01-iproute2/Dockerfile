@@ -2,9 +2,10 @@ FROM ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 RUN apt-get update && apt-get install -y bison flex iptables-dev
 ENV VERSION 4.7.0
-RUN wget http://kernel.org/pub/linux/utils/net/iproute2/iproute2-${VERSION}.tar.xz
-RUN tar xf /iproute2*
-RUN cd /iproute2* \
+ENV LDFLAGS -s
+RUN wget -P /usr/src/ http://kernel.org/pub/linux/utils/net/iproute2/iproute2-${VERSION}.tar.xz
+RUN cd /usr/src/ && tar xf iproute2*
+RUN cd /usr/src/iproute2* \
     && ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
@@ -13,5 +14,5 @@ RUN cd /iproute2* \
     && make
 
 COPY strato.yml /
-RUN cd /iproute2* \
+RUN cd /usr/src/iproute2* \
     && make install

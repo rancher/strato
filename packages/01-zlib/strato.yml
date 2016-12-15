@@ -2,4 +2,6 @@ subpackages:
   dev:
   - usr/include
   doc:
+  - usr/share/doc
+  - usr/share/info
   - usr/share/man

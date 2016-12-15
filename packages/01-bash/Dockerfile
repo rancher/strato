@@ -2,6 +2,7 @@ FROM ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 RUN apt-get update && apt-get install -y zlib1g-dev liblzma-dev
 ENV VERSION 4.4
+ENV LDFLAGS -s
 RUN wget -P /usr/src/ https://ftp.gnu.org/gnu/bash/bash-${VERSION}.tar.gz
 RUN cd /usr/src && tar xf bash*
 RUN cd /usr/src/bash* \
