@@ -11,7 +11,7 @@ echo > dist/images
 echo > dist/release-images
 
 for i in $BASE/0[1-9]*; do
-    name=$(echo ${i} | cut -f2 -d-)
+    name=$(basename ${i})
     tag="${name}"
 
     echo Building ${tag} from ${i}
