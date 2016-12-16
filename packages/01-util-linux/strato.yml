@@ -5,3 +5,13 @@ subpackages:
   - usr/share/doc
   - usr/share/info
   - usr/share/man
+  agetty:
+  - sbin/agetty
+  partx:
+  - usr/sbin/partx
+  libuuid:
+  - lib/libuuid
+  - usr/lib/libuuid
+  libblkid:
+  - lib/libblkid
+  - usr/lib/libblkid

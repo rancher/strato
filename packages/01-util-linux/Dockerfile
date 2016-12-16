@@ -10,6 +10,14 @@ RUN cd /util-linux* \
     --prefix=/usr \
     --without-python               \
     --without-systemdsystemunitdir \
+    --disable-uuidd \
+    --disable-nls \
+    --disable-tls \
+    --disable-kill \
+    --disable-login \
+    --disable-last \
+    --disable-sulogin \
+    --disable-su \
     && make
 
 COPY strato.yml /
