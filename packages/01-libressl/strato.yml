@@ -1,5 +1,0 @@
-subpackages:
-  dev:
-  - usr/include
-  doc:
-  - usr/share/man
