@@ -2,7 +2,7 @@ strato:
 	go build -ldflags="-s -w"
 
 base: strato
-	docker build -t strato .
+	./scripts/build-base
 
 run: base
 	docker run -it strato sh

@@ -1,0 +1,28 @@
+#!/bin/bash
+set -e
+
+cd $(dirname $0)/..
+
+BUILD=build
+ASSETS=assets
+
+mkdir -p ${BUILD}
+
+mkdir -p ${BUILD}/etc/ssl
+cp -r ${ASSETS}/certs ${BUILD}/etc/ssl
+cp ${ASSETS}/group ${ASSETS}/passwd ${ASSETS}/profile ${ASSETS}/shadow ${BUILD}/etc
+#./strato add --dir=${BUILD} layout
+
+tar -xf ${ASSETS}/gccbase.tar -C ${BUILD}
+tar -xf ${ASSETS}/libgcc.tar -C ${BUILD}
+tar -xf ${ASSETS}/libc6.tar -C ${BUILD}
+
+./strato add --dir=${BUILD} busybox
+
+cd ${BUILD}
+tar -cvf rootfs.tar .
+cd -
+mv ${BUILD}/rootfs.tar .
+rm -rf ${BUILD}
+
+docker build -t strato -f Dockerfile .
