@@ -1,19 +1,19 @@
 FROM ubuntu
 # FROM amd64=ubuntu:16.04 arm64=aarch64/ubuntu:16.04 arm=armhf/ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
-RUN apt-get update && apt-get install -y zlib1g-dev liblzma-dev
-ENV VERSION 4.2.1
+ENV VERSION 7.0
 ENV LDFLAGS -s
-RUN wget ftp://ftp.gnu.org/gnu/make/make-${VERSION}.tar.bz2
-RUN tar xf /make*
-RUN cd /make* \
+RUN wget -P /usr/src/ https://ftp.gnu.org/gnu/readline/readline-${VERSION}.tar.gz
+RUN cd /usr/src/ && tar xf readline*
+RUN cd /usr/src/readline* \
     && ./configure \
     --prefix=/usr \
     --mandir=/usr/share/man \
     --infodir=/usr/share/info \
-    --disable-nls \
+    --disable-static \
+    --enable-shared \
     && make
 
 COPY strato.yml /
-RUN cd /make* \
+RUN cd /usr/src/readline* \
     && make install

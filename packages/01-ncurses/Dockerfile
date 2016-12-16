@@ -1,4 +1,5 @@
-FROM ubuntu:16.04
+FROM ubuntu
+# FROM amd64=ubuntu:16.04 arm64=aarch64/ubuntu:16.04 arm=armhf/ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 ENV VERSION 6.0
 RUN wget https://ftp.gnu.org/gnu/ncurses/ncurses-${VERSION}.tar.gz

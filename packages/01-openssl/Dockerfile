@@ -1,4 +1,5 @@
-FROM ubuntu:16.04
+FROM ubuntu
+# FROM amd64=ubuntu:16.04 arm64=aarch64/ubuntu:16.04 arm=armhf/ubuntu:16.04
 # Borrow OpenSSL from Ubuntu for now
 COPY libssl.tar /
 COPY openssl.tar /

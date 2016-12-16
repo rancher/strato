@@ -1,4 +1,5 @@
-FROM ubuntu:16.04
+FROM ubuntu
+# FROM amd64=ubuntu:16.04 arm64=aarch64/ubuntu:16.04 arm=armhf/ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 ENV VERSION 7.51.0
 ENV LDFLAGS -s

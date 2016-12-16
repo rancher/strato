@@ -1,4 +1,5 @@
-FROM ubuntu:16.04
+FROM ubuntu
+# FROM amd64=ubuntu:16.04 arm64=aarch64/ubuntu:16.04 arm=armhf/ubuntu:16.04
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 RUN apt-get update && apt-get install -y gperf libglib2.0-dev libkmod-dev
 ENV VERSION 3.2
