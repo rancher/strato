@@ -41,6 +41,8 @@ func Action(c *cli.Context) error {
 	}
 	installs.Wait()
 
+	fmt.Println(utils.Size/1000000.0, "mb")
+
 	return nil
 }
 

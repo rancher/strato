@@ -16,6 +16,8 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+var Size float64
+
 func ExtractTar(reader io.Reader, target string, whitelist, blacklist []*regexp.Regexp) error {
 	gzipReader, err := gzip.NewReader(reader)
 	if err != nil {
@@ -55,7 +57,14 @@ func ExtractTar(reader io.Reader, target string, whitelist, blacklist []*regexp.
 		if !passes {
 			continue
 		}
+		// Temporarily ignore static libraries
+		if strings.HasSuffix(filename, ".a") {
+			continue
+		}
 		filename = path.Join(target, header.Name)
+
+		fmt.Println(filename)
+		Size += float64(header.FileInfo().Size())
 
 		switch header.Typeflag {
 		case tar.TypeDir:
@@ -75,7 +84,7 @@ func ExtractTar(reader io.Reader, target string, whitelist, blacklist []*regexp.
 				return err
 			}
 			io.Copy(writer, tarReader)
-			if err = os.Chmod(filename, os.FileMode(header.Mode)); err != nil {
+			if err = os.Chmod(filename, header.FileInfo().Mode()); err != nil {
 				return err
 			}
 			writer.Close()
