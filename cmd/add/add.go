@@ -13,6 +13,7 @@ import (
 	"github.com/heroku/docker-registry-client/registry"
 	"github.com/joshwget/strato/config"
 	"github.com/joshwget/strato/utils"
+	"github.com/joshwget/strato/version"
 )
 
 func Action(c *cli.Context) error {
@@ -55,7 +56,7 @@ func add(hub *registry.Registry, dir string, images ...string) error {
 			subpackage = imageSplit[1]
 		}
 
-		manifest, err := hub.Manifest(image, "latest")
+		manifest, err := hub.Manifest(image, version.Tag)
 		if err != nil {
 			return err
 		}

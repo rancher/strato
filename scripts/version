@@ -7,3 +7,10 @@ export SUFFIX=""
 if [ -n "${ARCH}" ] && [ "${ARCH}" != "amd64" ]; then
     SUFFIX="_${ARCH}"
 fi
+
+if [ -z "${VERSION}" ]; then
+    echo "Using \"dev\" as version"
+    VERSION=dev
+fi
+
+export TAG="${VERSION}${SUFFIX}"

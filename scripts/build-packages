@@ -13,7 +13,7 @@ echo > dist/release-images
 
 for i in $BASE/*; do
     name=$(basename ${i})
-    tag="${name}"
+    tag="${name}:${TAG}"
 
     echo Building ${tag} from ${i}
     if [ -e ${i}/prebuild.sh ]; then

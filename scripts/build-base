@@ -9,9 +9,30 @@ ASSETS=assets
 
 mkdir -p ${BUILD}
 
-mkdir -p ${BUILD}/etc/ssl
+install -m 0755 -d \
+  ${BUILD}/etc \
+  ${BUILD}/etc/ssl \
+  ${BUILD}/home \
+  ${BUILD}/run \
+  ${BUILD}/usr \
+  ${BUILD}/usr/bin \
+  ${BUILD}/usr/sbin \
+  ${BUILD}/usr/share \
+  ${BUILD}/var/cache \
+  ${BUILD}/var/cache/misc \
+  ${BUILD}/var/lib \
+  ${BUILD}/var/lib/misc \
+  ${BUILD}/var/local \
+  ${BUILD}/var/log \
+  ${BUILD}/var/run
+
+install -m 0555 -d ${BUILD}/var/empty
+install -m 0700 -d ${BUILD}/root
+install -m 1755 -d ${BUILD}/tmp ${BUILD}/var/tmp
+
 cp -r ${ASSETS}/certs ${BUILD}/etc/ssl
 cp ${ASSETS}/group ${ASSETS}/passwd ${ASSETS}/profile ${ASSETS}/shadow ${BUILD}/etc
+
 #./strato add --dir=${BUILD} layout
 
 tar -xf ${ASSETS}/${ARCH}/gccbase.tar -C ${BUILD}
@@ -28,4 +49,8 @@ mv ${BUILD}/rootfs.tar .
 rm -rf ${BUILD}
 
 docker build -t strato -f Dockerfile .
+docker tag strato strato:${TAG}
 docker build -t strato-min -f Dockerfile.min .
+docker tag strato-min strato-min:${TAG}
+
+rm rootfs.tar
