@@ -6,7 +6,8 @@ RUN apt-get update && apt-get install -y libestr-dev libjson-c-dev uuid-dev
 ENV VERSION 8.16.0
 ENV LDFLAGS -s
 RUN wget -P /usr/src/ http://www.rsyslog.com/files/download/rsyslog/rsyslog-${VERSION}.tar.gz
-RUN cd /usr/src/ && tar xf rsyslog*
+COPY rsyslog.conf /usr/src/
+RUN cd /usr/src/ && tar xf rsyslog*.tar.gz
 RUN cd /usr/src/rsyslog* \
     && ./configure \
     --prefix=/usr \
@@ -31,4 +32,5 @@ RUN cd /usr/src/rsyslog* \
 
 COPY strato.yml /
 RUN cd /usr/src/rsyslog* \
-    && make install
+    && make install \
+    && install -m644 -D /usr/src/rsyslog.conf /etc/rsyslog.conf
