@@ -10,7 +10,7 @@ mkdir -p dist
 echo > dist/images
 echo > dist/release-images
 
-for i in $BASE/0[1-9]*; do
+for i in $BASE/*; do
     name=$(basename ${i})
     tag="${name}"
 
