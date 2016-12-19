@@ -16,6 +16,7 @@ cp ${ASSETS}/group ${ASSETS}/passwd ${ASSETS}/profile ${ASSETS}/shadow ${BUILD}/
 tar -xf ${ASSETS}/gccbase.tar -C ${BUILD}
 tar -xf ${ASSETS}/libgcc.tar -C ${BUILD}
 tar -xf ${ASSETS}/libc6.tar -C ${BUILD}
+rm -rf ${BUILD}/usr/share/*
 
 ./strato add --dir=${BUILD} busybox
 
@@ -26,3 +27,4 @@ mv ${BUILD}/rootfs.tar .
 rm -rf ${BUILD}
 
 docker build -t strato -f Dockerfile .
+docker build -t strato-min -f Dockerfile.min .
