@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+source $(dirname $0)/version
 cd $(dirname $0)/..
 
 BUILD=build
@@ -13,9 +14,9 @@ cp -r ${ASSETS}/certs ${BUILD}/etc/ssl
 cp ${ASSETS}/group ${ASSETS}/passwd ${ASSETS}/profile ${ASSETS}/shadow ${BUILD}/etc
 #./strato add --dir=${BUILD} layout
 
-tar -xf ${ASSETS}/gccbase.tar -C ${BUILD}
-tar -xf ${ASSETS}/libgcc.tar -C ${BUILD}
-tar -xf ${ASSETS}/libc6.tar -C ${BUILD}
+tar -xf ${ASSETS}/${ARCH}/gccbase.tar -C ${BUILD}
+tar -xf ${ASSETS}/${ARCH}/libgcc.tar -C ${BUILD}
+tar -xf ${ASSETS}/${ARCH}/libc6.tar -C ${BUILD}
 rm -rf ${BUILD}/usr/share/*
 
 ./strato add --dir=${BUILD} busybox

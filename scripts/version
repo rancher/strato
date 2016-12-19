@@ -1,0 +1,9 @@
+if [ -z "${ARCH}" ]; then
+    echo "ARCH must be set"
+    exit 1
+fi
+
+export SUFFIX=""
+if [ -n "${ARCH}" ] && [ "${ARCH}" != "amd64" ]; then
+    SUFFIX="_${ARCH}"
+fi
