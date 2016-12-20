@@ -28,7 +28,7 @@ install -m 0755 -d \
 
 install -m 0555 -d ${BUILD}/var/empty
 install -m 0700 -d ${BUILD}/root
-install -m 1755 -d ${BUILD}/tmp ${BUILD}/var/tmp
+install -m 1777 -d ${BUILD}/tmp ${BUILD}/var/tmp
 
 cp -r ${ASSETS}/certs ${BUILD}/etc/ssl
 cp ${ASSETS}/group ${ASSETS}/passwd ${ASSETS}/profile ${ASSETS}/shadow ${BUILD}/etc
