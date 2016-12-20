@@ -2,7 +2,7 @@
 set -e
 
 BASE=packages
-ORG=joshwget
+ORG=stratopkg
 
 source $(dirname $0)/version
 cd $(dirname $0)/..
