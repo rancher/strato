@@ -22,7 +22,7 @@ func main() {
 		},
 		cli.StringFlag{
 			Name:  "user",
-			Value: "joshwget",
+			Value: "stratopkg",
 		},
 	}
 	app.Before = func(c *cli.Context) error {
