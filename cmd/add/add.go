@@ -109,7 +109,7 @@ func add(hub *registry.Registry, dir string, images ...string) error {
 			return err
 		}
 
-		log.Infof("Installing package %s", image)
+		log.Infof("Installing package %s", fmt.Sprintf("%s:%s", image, version.Tag))
 		if err = utils.ExtractTar(reader, dir, whitelist, blacklist); err != nil {
 			return err
 		}
