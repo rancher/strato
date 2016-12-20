@@ -1,3 +1,3 @@
 FROM scratch
 ADD rootfs.tar /
-COPY strato /sbin/
+COPY bin/strato /sbin/

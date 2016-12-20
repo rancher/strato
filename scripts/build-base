@@ -40,7 +40,7 @@ tar -xf ${ASSETS}/${ARCH}/libgcc.tar -C ${BUILD}
 tar -xf ${ASSETS}/${ARCH}/libc6.tar -C ${BUILD}
 rm -rf ${BUILD}/usr/share/*
 
-./strato add --dir=${BUILD} busybox
+./bin/strato add --dir=${BUILD} busybox
 
 cd ${BUILD}
 tar -cvf rootfs.tar .
