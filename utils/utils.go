@@ -19,6 +19,65 @@ import (
 var Size float64
 
 func ExtractTar(reader io.Reader, target string, whitelist, blacklist []*regexp.Regexp) error {
+	return TarForEach(reader, whitelist, blacklist, writeFile(target))
+}
+
+func writeFile(target string) func(io.Reader, *tar.Header) error {
+	return func(tarReader io.Reader, header *tar.Header) error {
+		filename := path.Join(target, header.Name)
+		fmt.Println(filename)
+		Size += float64(header.FileInfo().Size())
+
+		switch header.Typeflag {
+		case tar.TypeDir:
+			log.Debugf("Dir: %s", filename)
+			if err := os.MkdirAll(filename, os.FileMode(header.Mode)); err != nil {
+				return err
+			}
+		case tar.TypeReg:
+			log.Debugf("File: %s", filename)
+			if _, err := os.Stat(filename); err == nil {
+				if err := os.Remove(filename); err != nil {
+					return err
+				}
+			}
+			writer, err := os.Create(filename)
+			if err != nil {
+				return err
+			}
+			io.Copy(writer, tarReader)
+			if err = os.Chmod(filename, header.FileInfo().Mode()); err != nil {
+				return err
+			}
+			writer.Close()
+		case tar.TypeLink:
+			log.Debugf("Hard link: %s", filename)
+			if _, err := os.Stat(filename); err == nil {
+				if err := os.Remove(filename); err != nil {
+					return err
+				}
+			}
+			if err := os.Link(header.Linkname, filename); err != nil {
+				return err
+			}
+		case tar.TypeSymlink:
+			log.Debugf("Soft link: %s", filename)
+			if _, err := os.Stat(filename); err == nil {
+				if err := os.Remove(filename); err != nil {
+					return err
+				}
+			}
+			if err := os.Symlink(header.Linkname, filename); err != nil {
+				return err
+			}
+		default:
+			return fmt.Errorf("Failed to untar %s (%c)", filename, header.Typeflag)
+		}
+		return nil
+	}
+}
+
+func TarForEach(reader io.Reader, whitelist, blacklist []*regexp.Regexp, f func(io.Reader, *tar.Header) error) error {
 	gzipReader, err := gzip.NewReader(reader)
 	if err != nil {
 		return err
@@ -61,55 +120,9 @@ func ExtractTar(reader io.Reader, target string, whitelist, blacklist []*regexp.
 		if strings.HasSuffix(filename, ".a") {
 			continue
 		}
-		filename = path.Join(target, header.Name)
 
-		fmt.Println(filename)
-		Size += float64(header.FileInfo().Size())
-
-		switch header.Typeflag {
-		case tar.TypeDir:
-			log.Debugf("Dir: %s", filename)
-			if err = os.MkdirAll(filename, os.FileMode(header.Mode)); err != nil {
-				return err
-			}
-		case tar.TypeReg:
-			log.Debugf("File: %s", filename)
-			if _, err := os.Stat(filename); err == nil {
-				if err := os.Remove(filename); err != nil {
-					return err
-				}
-			}
-			writer, err := os.Create(filename)
-			if err != nil {
-				return err
-			}
-			io.Copy(writer, tarReader)
-			if err = os.Chmod(filename, header.FileInfo().Mode()); err != nil {
-				return err
-			}
-			writer.Close()
-		case tar.TypeLink:
-			log.Debugf("Hard link: %s", filename)
-			if _, err := os.Stat(filename); err == nil {
-				if err := os.Remove(filename); err != nil {
-					return err
-				}
-			}
-			if err := os.Link(header.Linkname, filename); err != nil {
-				return err
-			}
-		case tar.TypeSymlink:
-			log.Debugf("Soft link: %s", filename)
-			if _, err := os.Stat(filename); err == nil {
-				if err := os.Remove(filename); err != nil {
-					return err
-				}
-			}
-			if err := os.Symlink(header.Linkname, filename); err != nil {
-				return err
-			}
-		default:
-			return fmt.Errorf("Failed to untar %s (%c)", filename, header.Typeflag)
+		if err := f(tarReader, header); err != nil {
+			return err
 		}
 	}
 

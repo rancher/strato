@@ -2,7 +2,6 @@ package add
 
 import (
 	"fmt"
-	"regexp"
 	"strings"
 	"sync"
 
@@ -95,37 +94,9 @@ func add(hub *registry.Registry, dir string, images ...string) error {
 			}
 		}
 
-		var whitelist []*regexp.Regexp
-		var blacklist []*regexp.Regexp
-		if whitelistItems, ok := pkg.Subpackages[subpackage]; ok {
-			// Only install whitelisted for subpackages
-			for _, whitelistItem := range whitelistItems {
-				whitelistRegex, err := regexp.Compile(whitelistItem)
-				if err != nil {
-					return err
-				}
-				whitelist = append(whitelist, whitelistRegex)
-			}
-		} else {
-			// Blacklist the union of all subpackage whitelists for regular packages
-			var union []*regexp.Regexp
-			for _, whitelistItems := range pkg.Subpackages {
-				for _, whitelistItem := range whitelistItems {
-					whitelistRegex, err := regexp.Compile(whitelistItem)
-					if err != nil {
-						return err
-					}
-					union = append(union, whitelistRegex)
-				}
-			}
-			blacklist = union
-		}
-		for _, exclude := range pkg.Exclude {
-			excludeRegex, err := regexp.Compile(exclude)
-			if err != nil {
-				return err
-			}
-			blacklist = append(blacklist, excludeRegex)
+		whitelist, blacklist, err := config.GenerateWhiteAndBlackLists(pkg, subpackage)
+		if err != nil {
+			return err
 		}
 
 		digest := digest.NewDigestFromHex(

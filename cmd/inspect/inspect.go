@@ -2,7 +2,6 @@ package inspect
 
 import (
 	"archive/tar"
-	"compress/gzip"
 	"fmt"
 	"io"
 	"strings"
@@ -12,17 +11,31 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/docker/distribution/digest"
 	"github.com/heroku/docker-registry-client/registry"
+	"github.com/joshwget/strato/config"
 	"github.com/joshwget/strato/utils"
 )
 
 func Action(c *cli.Context) error {
+	user := c.GlobalString("user")
 	image := c.Args()[0]
+
+	if !strings.Contains(image, "/") {
+		image = fmt.Sprintf("%s/%s", user, image)
+	}
+
+	var subpackage string
+	imageSplit := strings.SplitN(image, "%", 2)
+	if len(imageSplit) > 1 {
+		image = imageSplit[0]
+		subpackage = imageSplit[1]
+	}
 	registryURL := c.GlobalString("registry")
 
 	hub, err := registry.New(registryURL, "", "")
 	if err != nil {
 		return err
 	}
+	hub.Logf = registry.Quiet
 
 	manifest, err := hub.Manifest(image, "latest")
 	if err != nil {
@@ -61,20 +74,16 @@ func Action(c *cli.Context) error {
 			return err
 		}
 
-		gzipReader, err := gzip.NewReader(reader)
+		whitelist, blacklist, err := config.GenerateWhiteAndBlackLists(pkg, subpackage)
 		if err != nil {
 			return err
 		}
-		tarReader := tar.NewReader(gzipReader)
-		for {
-			header, err := tarReader.Next()
-			if err != nil {
-				if err == io.EOF {
-					break
-				}
-				return err
-			}
+
+		if err := utils.TarForEach(reader, whitelist, blacklist, func(tarReader io.Reader, header *tar.Header) error {
 			log.Infoln(header.Name)
+			return nil
+		}); err != nil {
+			return err
 		}
 
 		reader.Close()
