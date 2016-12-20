@@ -1,0 +1,10 @@
+#!/bin/bash
+
+_i=1
+_pad="00"
+while [ $_i -le 48 ]; do
+	[ $_i -ge 10 ] && _pad="0"
+	[ $_i -ge 100 ] && _pad=
+	wget -O bash43-${_pad}${_i}.patch "http://ftp.gnu.org/gnu/bash/bash-4.3-patches/bash43-${_pad}${_i}"
+	_i=$(( $_i + 1))
+done
