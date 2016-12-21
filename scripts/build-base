@@ -5,6 +5,7 @@ source $(dirname $0)/version
 cd $(dirname $0)/..
 
 BUILD=build
+BUILD2=build2
 ASSETS=assets
 
 mkdir -p ${BUILD}
@@ -40,6 +41,8 @@ tar -xf ${ASSETS}/${ARCH}/libgcc.tar -C ${BUILD}
 tar -xf ${ASSETS}/${ARCH}/libc6.tar -C ${BUILD}
 rm -rf ${BUILD}/usr/share/*
 
+cp -r ${BUILD} ${BUILD2}
+
 ./bin/strato add --dir=${BUILD} busybox
 
 cd ${BUILD}
@@ -48,9 +51,18 @@ cd -
 mv ${BUILD}/rootfs.tar .
 rm -rf ${BUILD}
 
+./bin/strato add --dir=${BUILD2} busybox openssl
+
+cd ${BUILD2}
+tar -cvf rootfs-min.tar .
+cd -
+mv ${BUILD2}/rootfs-min.tar .
+rm -rf ${BUILD2}
+
 docker build -t strato -f Dockerfile .
 docker tag strato strato:${TAG}
 docker build -t strato-min -f Dockerfile.min .
 docker tag strato-min strato-min:${TAG}
 
 rm rootfs.tar
+rm rootfs-min.tar
