@@ -8,40 +8,41 @@ BUILD=build
 BUILD2=build2
 ASSETS=assets
 
-mkdir -p ${BUILD}
+layout_root () {
+    mkdir -p $1
 
-install -m 0755 -d \
-  ${BUILD}/etc \
-  ${BUILD}/etc/ssl \
-  ${BUILD}/home \
-  ${BUILD}/run \
-  ${BUILD}/usr \
-  ${BUILD}/usr/bin \
-  ${BUILD}/usr/sbin \
-  ${BUILD}/usr/share \
-  ${BUILD}/var/cache \
-  ${BUILD}/var/cache/misc \
-  ${BUILD}/var/lib \
-  ${BUILD}/var/lib/misc \
-  ${BUILD}/var/local \
-  ${BUILD}/var/log \
-  ${BUILD}/var/run
+    install -m 0755 -d \
+      $1/etc \
+      $1/etc/ssl \
+      $1/home \
+      $1/run \
+      $1/usr \
+      $1/usr/bin \
+      $1/usr/sbin \
+      $1/usr/share \
+      $1/var/cache \
+      $1/var/cache/misc \
+      $1/var/lib \
+      $1/var/lib/misc \
+      $1/var/local \
+      $1/var/log \
+      $1/var/run
 
-install -m 0555 -d ${BUILD}/var/empty
-install -m 0700 -d ${BUILD}/root
-install -m 1777 -d ${BUILD}/tmp ${BUILD}/var/tmp
+    install -m 0555 -d $1/var/empty
+    install -m 0700 -d $1/root
+    install -m 1777 -d $1/tmp $1/var/tmp
 
-cp -r ${ASSETS}/certs ${BUILD}/etc/ssl
-cp ${ASSETS}/group ${ASSETS}/passwd ${ASSETS}/profile ${ASSETS}/shadow ${BUILD}/etc
+    cp -r ${ASSETS}/certs $1/etc/ssl
+    cp ${ASSETS}/group ${ASSETS}/passwd ${ASSETS}/profile ${ASSETS}/shadow $1/etc
 
-#./strato add --dir=${BUILD} layout
+    tar -xf ${ASSETS}/${ARCH}/gccbase.tar -C $1
+    tar -xf ${ASSETS}/${ARCH}/libgcc.tar -C $1
+    tar -xf ${ASSETS}/${ARCH}/libc6.tar -C $1
+    rm -rf $1/usr/share/*
+}
 
-tar -xf ${ASSETS}/${ARCH}/gccbase.tar -C ${BUILD}
-tar -xf ${ASSETS}/${ARCH}/libgcc.tar -C ${BUILD}
-tar -xf ${ASSETS}/${ARCH}/libc6.tar -C ${BUILD}
-rm -rf ${BUILD}/usr/share/*
-
-cp -r ${BUILD} ${BUILD2}
+layout_root ${BUILD}
+layout_root ${BUILD2}
 
 ./bin/strato add --dir=${BUILD} busybox
 

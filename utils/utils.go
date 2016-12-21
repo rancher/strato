@@ -116,8 +116,14 @@ func TarForEach(reader io.Reader, whitelist, blacklist []*regexp.Regexp, f func(
 		if !passes {
 			continue
 		}
-		// Temporarily ignore static libraries
+		// Temporarily ignored conditions
 		if strings.HasSuffix(filename, ".a") {
+			continue
+		}
+		if strings.HasPrefix(filename, "tmp/") {
+			continue
+		}
+		if strings.HasPrefix(filename, "usr/src/") {
 			continue
 		}
 
