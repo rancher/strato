@@ -34,6 +34,7 @@ layout_root () {
 
     cp -r ${ASSETS}/certs $1/etc/ssl
     cp ${ASSETS}/group ${ASSETS}/passwd ${ASSETS}/profile ${ASSETS}/shadow ${ASSETS}/shells $1/etc
+    cp ${ASSETS}/get-arch $1/usr/bin
 
     tar -xf ${ASSETS}/${ARCH}/gccbase.tar -C $1
     tar -xf ${ASSETS}/${ARCH}/libgcc.tar -C $1
