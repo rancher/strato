@@ -5,3 +5,4 @@ subpackages:
   - usr/share/doc
   - usr/share/info
   - usr/share/man
+postcmd: add-shell /bin/bash

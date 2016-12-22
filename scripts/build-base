@@ -33,7 +33,7 @@ layout_root () {
     install -m 1777 -d $1/tmp $1/var/tmp
 
     cp -r ${ASSETS}/certs $1/etc/ssl
-    cp ${ASSETS}/group ${ASSETS}/passwd ${ASSETS}/profile ${ASSETS}/shadow $1/etc
+    cp ${ASSETS}/group ${ASSETS}/passwd ${ASSETS}/profile ${ASSETS}/shadow ${ASSETS}/shells $1/etc
 
     tar -xf ${ASSETS}/${ARCH}/gccbase.tar -C $1
     tar -xf ${ASSETS}/${ARCH}/libgcc.tar -C $1
