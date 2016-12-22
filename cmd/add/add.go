@@ -49,7 +49,7 @@ func Action(c *cli.Context) error {
 func add(hub *registry.Registry, dir string, images ...string) error {
 	for _, image := range images {
 		var subpackage string
-		imageSplit := strings.SplitN(image, "%", 2)
+		imageSplit := strings.SplitN(image, "#", 2)
 		if len(imageSplit) > 1 {
 			image = imageSplit[0]
 			subpackage = imageSplit[1]
