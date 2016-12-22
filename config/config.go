@@ -15,6 +15,8 @@ type Package struct {
 	Dependencies []string
 	Exclude      []string
 	Subpackages  map[string][]string
+	Precmd       string
+	Postcmd      string
 }
 
 func GenerateWhiteAndBlackLists(pkg *Package, subpackage string) ([]*regexp.Regexp, []*regexp.Regexp, error) {

@@ -2,6 +2,8 @@ package add
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 	"strings"
 	"sync"
 
@@ -114,6 +116,16 @@ func add(hub *registry.Registry, dir string, images ...string) error {
 			return err
 		}
 		reader.Close()
+
+		if pkg.Postcmd != "" {
+			log.Infof("Running command %s", pkg.Postcmd)
+			cmd := exec.Command("sh", "-c", pkg.Postcmd)
+			cmd.Stdout = os.Stdout
+			cmd.Stderr = os.Stderr
+			if err := cmd.Run(); err != nil {
+				return err
+			}
+		}
 	}
 
 	return nil
