@@ -23,11 +23,13 @@ layout_root () {
       $1/var/cache \
       $1/var/cache/misc \
       $1/var/lib \
+      $1/var/lib/strato \
       $1/var/lib/misc \
       $1/var/local \
       $1/var/log \
       $1/var/run
 
+    touch $1/var/lib/strato/packages
     install -m 0555 -d $1/var/empty
     install -m 0700 -d $1/root
     install -m 1777 -d $1/tmp $1/var/tmp
