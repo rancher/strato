@@ -13,6 +13,7 @@ import (
 	"github.com/docker/distribution/digest"
 	"github.com/heroku/docker-registry-client/registry"
 	"github.com/joshwget/strato/config"
+	"github.com/joshwget/strato/state"
 	"github.com/joshwget/strato/utils"
 	"github.com/joshwget/strato/version"
 )
@@ -111,6 +112,14 @@ func add(hub *registry.Registry, dir string, images ...string) error {
 			return err
 		}
 
+		inPackageList, err := state.InPackageList(image, dir)
+		if err != nil {
+			return err
+		}
+		if inPackageList {
+			continue
+		}
+
 		log.Infof("Installing package %s", fmt.Sprintf("%s:%s", image, version.Tag))
 		if err = utils.ExtractTar(reader, dir, whitelist, blacklist); err != nil {
 			return err
@@ -122,9 +131,13 @@ func add(hub *registry.Registry, dir string, images ...string) error {
 			cmd := exec.Command("sh", "-c", pkg.Postcmd)
 			cmd.Stdout = os.Stdout
 			cmd.Stderr = os.Stderr
-			if err := cmd.Run(); err != nil {
+			if err = cmd.Run(); err != nil {
 				return err
 			}
+		}
+
+		if err = state.AddToPackageList(image, dir); err != nil {
+			return err
 		}
 	}
 
