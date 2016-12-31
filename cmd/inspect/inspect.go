@@ -1,22 +1,9 @@
 package inspect
 
-import (
-	"archive/tar"
-	"fmt"
-	"io"
-	"strings"
-
-	"github.com/urfave/cli"
-
-	log "github.com/Sirupsen/logrus"
-	"github.com/docker/distribution/digest"
-	"github.com/heroku/docker-registry-client/registry"
-	"github.com/joshwget/strato/config"
-	"github.com/joshwget/strato/utils"
-)
+import "github.com/urfave/cli"
 
 func Action(c *cli.Context) error {
-	user := c.GlobalString("user")
+	/*user := c.GlobalString("user")
 	image := c.Args()[0]
 
 	if !strings.Contains(image, "/") {
@@ -79,7 +66,7 @@ func Action(c *cli.Context) error {
 			return err
 		}
 
-		if err := utils.TarForEach(reader, whitelist, blacklist, func(tarReader io.Reader, header *tar.Header) error {
+		if err := utils.GzipTarForEach(reader, whitelist, blacklist, func(tarReader io.Reader, header *tar.Header) error {
 			log.Infoln(header.Name)
 			return nil
 		}); err != nil {
@@ -87,6 +74,6 @@ func Action(c *cli.Context) error {
 		}
 
 		reader.Close()
-	}
+	}*/
 	return nil
 }

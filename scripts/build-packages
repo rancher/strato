@@ -12,8 +12,6 @@ source $(dirname $0)/version
 cd $(dirname $0)/..
 
 mkdir -p dist
-echo > dist/images
-echo > dist/release-images
 
 for i in $BASE/*; do
     name=$(basename ${i})
@@ -24,13 +22,11 @@ for i in $BASE/*; do
         ${i}/prebuild.sh
     fi
 
-    if dapper -d --build -f ${i}/Dockerfile -- -t ${name} ${i}; then
-        docker tag ${name} ${ORG}/${tag}
+    if dapper -d --build -f ${i}/Dockerfile -- -t package ${i}; then
+        ./bin/extract ${i}/strato.yml dist/${name}.tar.gz
     elif [ "$?" != "42" ]; then
         exit 1
     else
         echo "Skipping ${tag}"
     fi
-    echo ${tag} >> dist/images
-    echo "docker push ${ORG}/${tag}" >> dist/release-images
 done

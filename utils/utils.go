@@ -11,7 +11,6 @@ import (
 	"regexp"
 	"strings"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/joshwget/strato/config"
 	"gopkg.in/yaml.v2"
 )
@@ -19,7 +18,7 @@ import (
 var Size float64
 
 func ExtractTar(reader io.Reader, target string, whitelist, blacklist []*regexp.Regexp) error {
-	return TarForEach(reader, whitelist, blacklist, writeFile(target))
+	return GzipTarForEach(reader, whitelist, blacklist, writeFile(target))
 }
 
 func writeFile(target string) func(io.Reader, *tar.Header) error {
@@ -30,12 +29,10 @@ func writeFile(target string) func(io.Reader, *tar.Header) error {
 
 		switch header.Typeflag {
 		case tar.TypeDir:
-			log.Debugf("Dir: %s", filename)
 			if err := os.MkdirAll(filename, os.FileMode(header.Mode)); err != nil {
 				return err
 			}
 		case tar.TypeReg:
-			log.Debugf("File: %s", filename)
 			if _, err := os.Stat(filename); err == nil {
 				if err := os.Remove(filename); err != nil {
 					return err
@@ -51,7 +48,6 @@ func writeFile(target string) func(io.Reader, *tar.Header) error {
 			}
 			writer.Close()
 		case tar.TypeLink:
-			log.Debugf("Hard link: %s", filename)
 			if _, err := os.Stat(filename); err == nil {
 				if err := os.Remove(filename); err != nil {
 					return err
@@ -61,7 +57,6 @@ func writeFile(target string) func(io.Reader, *tar.Header) error {
 				return err
 			}
 		case tar.TypeSymlink:
-			log.Debugf("Soft link: %s", filename)
 			if _, err := os.Stat(filename); err == nil {
 				if err := os.Remove(filename); err != nil {
 					return err
@@ -77,12 +72,16 @@ func writeFile(target string) func(io.Reader, *tar.Header) error {
 	}
 }
 
-func TarForEach(reader io.Reader, whitelist, blacklist []*regexp.Regexp, f func(io.Reader, *tar.Header) error) error {
+func GzipTarForEach(reader io.Reader, whitelist, blacklist []*regexp.Regexp, f func(io.Reader, *tar.Header) error) error {
 	gzipReader, err := gzip.NewReader(reader)
 	if err != nil {
 		return err
 	}
-	tarReader := tar.NewReader(gzipReader)
+	return TarForEach(gzipReader, whitelist, blacklist, f)
+}
+
+func TarForEach(reader io.Reader, whitelist, blacklist []*regexp.Regexp, f func(io.Reader, *tar.Header) error) error {
+	tarReader := tar.NewReader(reader)
 	for {
 		header, err := tarReader.Next()
 		if err != nil {

@@ -3,7 +3,6 @@ package main
 import (
 	"os"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/joshwget/strato/cmd/add"
 	"github.com/joshwget/strato/cmd/inspect"
 	"github.com/urfave/cli"
@@ -17,19 +16,9 @@ func main() {
 			Name: "verbose",
 		},
 		cli.StringFlag{
-			Name:  "registry",
-			Value: "https://registry-1.docker.io/",
+			Name:  "source",
+			Value: "http://192.168.217.226:8000/",
 		},
-		cli.StringFlag{
-			Name:  "user",
-			Value: "stratopkg",
-		},
-	}
-	app.Before = func(c *cli.Context) error {
-		if c.GlobalBool("verbose") {
-			log.SetLevel(log.DebugLevel)
-		}
-		return nil
 	}
 	app.Commands = []cli.Command{
 		{
@@ -51,6 +40,6 @@ func main() {
 		},
 	}
 	if err := app.Run(os.Args); err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 }

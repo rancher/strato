@@ -14,3 +14,5 @@ if [ -z "${VERSION}" ]; then
 fi
 
 export TAG="${VERSION}${SUFFIX}"
+
+export DOCKER_API_VERSION=1.22
