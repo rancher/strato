@@ -47,7 +47,7 @@ layout_root () {
 layout_root ${BUILD}
 layout_root ${BUILD2}
 
-./bin/strato add --dir=${BUILD} busybox
+./bin/strato --source=${PWD}/dist/ add --dir=${BUILD} busybox
 
 cd ${BUILD}
 tar -cvf rootfs.tar .
@@ -55,7 +55,7 @@ cd -
 mv ${BUILD}/rootfs.tar .
 rm -rf ${BUILD}
 
-./bin/strato add --dir=${BUILD2} busybox openssl
+./bin/strato --source=${PWD}/dist/ add --dir=${BUILD2} busybox openssl
 
 cd ${BUILD2}
 tar -cvf rootfs-min.tar .
