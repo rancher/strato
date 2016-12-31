@@ -2,7 +2,10 @@ package add
 
 import (
 	"fmt"
+	"io"
 	"net/http"
+	"os"
+	"path"
 	"sync"
 
 	"github.com/urfave/cli"
@@ -43,16 +46,25 @@ func add(dir string, packages ...string) error {
 			continue
 		}
 
-		resp, err := http.Get(image)
-		if err != nil {
-			return err
+		var packageReader io.ReadCloser
+		if path.IsAbs(image) {
+			packageReader, err = os.Open(image)
+			if err != nil {
+				return err
+			}
+		} else {
+			resp, err := http.Get(image)
+			if err != nil {
+				return err
+			}
+			packageReader = resp.Body
 		}
 
 		fmt.Printf("Installing package %s", fmt.Sprintf("%s:%s", image, version.Tag))
-		if err = utils.ExtractTar(resp.Body, dir, nil, nil); err != nil {
+		if err = utils.ExtractTar(packageReader, dir, nil, nil); err != nil {
 			return err
 		}
-		resp.Body.Close()
+		packageReader.Close()
 
 		if err = state.AddToPackageList(image, dir); err != nil {
 			return err
