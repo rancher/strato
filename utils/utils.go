@@ -2,7 +2,6 @@ package utils
 
 import (
 	"archive/tar"
-	"bytes"
 	"compress/gzip"
 	"fmt"
 	"io"
@@ -12,7 +11,6 @@ import (
 	"strings"
 
 	"github.com/joshwget/strato/config"
-	"gopkg.in/yaml.v2"
 )
 
 var Size float64
@@ -132,35 +130,4 @@ func TarForEach(reader io.Reader, whitelist, blacklist []*regexp.Regexp, f func(
 	}
 
 	return nil
-}
-
-func FindPackage(reader io.Reader) (*config.Package, error) {
-	gzipReader, err := gzip.NewReader(reader)
-	if err != nil {
-		return nil, err
-	}
-	tarReader := tar.NewReader(gzipReader)
-	for {
-		header, err := tarReader.Next()
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			return nil, err
-		}
-		filename := header.Name
-		if strings.Contains(filename, config.Filename) {
-			buf := new(bytes.Buffer)
-			buf.ReadFrom(tarReader)
-			var pkg config.Package
-			if err := yaml.Unmarshal(buf.Bytes(), &pkg); err != nil {
-				return nil, err
-			}
-			return &pkg, nil
-		}
-		if filename > config.Filename {
-			return nil, nil
-		}
-	}
-	return nil, nil
 }
