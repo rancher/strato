@@ -17,7 +17,7 @@ func main() {
 		},
 		cli.StringFlag{
 			Name:  "source",
-			Value: "http://192.168.217.226:8000/",
+			Value: "/packages/",
 		},
 	}
 	app.Commands = []cli.Command{
