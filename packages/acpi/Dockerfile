@@ -9,6 +9,5 @@ RUN cd /usr/src/acpi* \
     && ./configure --prefix=/usr \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/acpi* \
     && make install

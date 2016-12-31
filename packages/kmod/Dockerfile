@@ -16,7 +16,6 @@ RUN cd /usr/src/kmod* \
     --with-xz \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/kmod* \
     && make install \
     && for i in lsmod rmmod insmod modinfo modprobe depmod; do [ -e /bin/$i ] && rm /bin/$i; ln -s kmod /bin/$i; done \

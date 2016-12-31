@@ -20,6 +20,5 @@ RUN cd /usr/src/parted* \
     --enable-shared \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/parted* \
     && make install

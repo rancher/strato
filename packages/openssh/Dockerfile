@@ -26,6 +26,5 @@ RUN cd /usr/src/openssh* \
     --without-pam \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/openssh* \
     && make install

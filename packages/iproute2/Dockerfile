@@ -14,6 +14,5 @@ RUN cd /usr/src/iproute2* \
     --localstatedir=/var \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/iproute2* \
     && make install

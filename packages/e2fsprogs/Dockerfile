@@ -19,6 +19,5 @@ RUN cd /usr/src/e2fsprogs* \
     --disable-nls \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/e2fsprogs* \
     && make install install-libs \

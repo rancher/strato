@@ -13,6 +13,5 @@ RUN cd /ncurses* \
     --enable-overwrite \
     && make
 
-COPY strato.yml /
 RUN cd /ncurses* \
     && make install

@@ -18,6 +18,5 @@ RUN cd /usr/src/json-c* \
     --enable-shared \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/json-c* \
     && make install

@@ -16,6 +16,5 @@ RUN cd /usr/src/xz* \
     --disable-werror \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/xz* \
     && make install

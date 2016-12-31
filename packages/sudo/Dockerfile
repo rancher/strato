@@ -18,6 +18,5 @@ RUN cd /usr/src/sudo* \
     --with-passprompt="[sudo] password for %p: " \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/sudo* \
     && make install

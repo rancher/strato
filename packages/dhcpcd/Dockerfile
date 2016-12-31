@@ -14,6 +14,5 @@ RUN cd /usr/src/dhcpcd* \
     --dbdir=/var/lib/dhcpcd \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/dhcpcd* \
     && make install

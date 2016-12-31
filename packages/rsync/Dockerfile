@@ -15,6 +15,5 @@ RUN cd /usr/src/rsync* \
     --localstatedir=/var \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/rsync* \
     && make install

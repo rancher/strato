@@ -11,7 +11,6 @@ RUN cd /libressl* \
     --localstatedir=/var \
     && make
 
-COPY strato.yml /
 # TODO: remove 1.0.0 first and fix weird permission error
 RUN cd /libressl* \
     && make install \

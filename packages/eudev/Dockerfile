@@ -20,6 +20,5 @@ RUN cd /usr/src/eudev* \
     --exec-prefix=/ \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/eudev* \
     && make sharepkgconfigdir=/usr/lib/pkgconfig install

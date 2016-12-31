@@ -3,6 +3,5 @@ FROM ubuntu
 # Borrow OpenSSL from Ubuntu for now
 COPY assets /
 
-COPY strato.yml /
 RUN tar xvf "$(uname -m)/libssl.tar" -C / \
     && tar xvf "$(uname -m)/openssl.tar" -C /

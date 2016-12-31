@@ -11,6 +11,5 @@ RUN cd /usr/src/zlib* \
     --shared \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/zlib* \
     && make install

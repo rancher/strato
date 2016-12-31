@@ -10,6 +10,5 @@ RUN cd /usr/src/libestr* \
     --prefix=/usr \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/libestr* \
     && make install

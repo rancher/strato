@@ -15,7 +15,6 @@ RUN cd /usr/src/ntp* \
     --bindir=/usr/sbin \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/ntp* \
     && make install \
     && install -m644 -D /usr/src/ntp.conf /etc/ntp.conf

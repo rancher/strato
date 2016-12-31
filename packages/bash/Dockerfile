@@ -19,6 +19,5 @@ RUN cd /usr/src/bash* \
     --without-bash-malloc \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/bash* \
     && make install

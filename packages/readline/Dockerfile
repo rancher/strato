@@ -14,6 +14,5 @@ RUN cd /usr/src/readline* \
     --enable-shared \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/readline* \
     && make install

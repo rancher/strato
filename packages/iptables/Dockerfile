@@ -17,6 +17,5 @@ RUN cd /usr/src/iptables* \
     --enable-shared \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/iptables* \
     && make install

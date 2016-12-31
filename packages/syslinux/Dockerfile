@@ -8,6 +8,5 @@ RUN tar xf /syslinux*
 RUN cd /syslinux* \
     && make
 
-COPY strato.yml /
 RUN cd /syslinux* \
     && make install

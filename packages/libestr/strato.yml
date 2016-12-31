@@ -1,7 +1,5 @@
-subpackages:
-  dev:
-  - usr/include
-  doc:
-  - usr/share/doc
-  - usr/share/info
-  - usr/share/man
+exclude:
+- usr/include
+- usr/share/doc
+- usr/share/info
+- usr/share/man

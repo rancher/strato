@@ -1,8 +1,5 @@
-subpackages:
-  dev:
-  - usr/include
-  doc:
-  - usr/share/doc
-  - usr/share/info
-  - usr/share/man
-  - sudo-1.8
+exclude:
+- usr/include
+- usr/share/doc
+- usr/share/info
+- usr/share/man

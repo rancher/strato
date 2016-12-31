@@ -8,6 +8,5 @@ RUN cd /usr/src/ && tar xf mdadm*
 RUN cd /usr/src/mdadm* \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/mdadm* \
     && make install

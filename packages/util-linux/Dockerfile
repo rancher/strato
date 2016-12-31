@@ -21,6 +21,5 @@ RUN cd /util-linux* \
     --disable-su \
     && make
 
-COPY strato.yml /
 RUN cd /util-linux* \
     && make install

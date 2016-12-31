@@ -10,7 +10,6 @@ RUN tar xf busybox* \
     && make silentoldconfig \
     && make
 
-COPY strato.yml /
 RUN cd /busybox* \
     && install -m 755 busybox /bin/busybox \
     && cd / \

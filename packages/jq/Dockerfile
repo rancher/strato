@@ -11,6 +11,5 @@ RUN cd /usr/src/jq* \
     && ./configure --prefix=/usr --disable-docs \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/jq* \
     && make prefix=/usr install

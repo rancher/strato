@@ -30,7 +30,6 @@ RUN cd /usr/src/rsyslog* \
     --disable-liblogging-stdlog \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/rsyslog* \
     && make install \
     && install -m644 -D /usr/src/rsyslog.conf /etc/rsyslog.conf
