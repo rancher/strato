@@ -11,6 +11,5 @@ RUN cd /usr/src/ethtool* \
     --mandir=/usr/share/man \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/ethtool* \
     && make install

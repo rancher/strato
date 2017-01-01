@@ -9,6 +9,5 @@ RUN cd /usr/src/ && tar xf ${VERSION}*
 RUN cd /usr/src/open-iscsi* \
     && make user
 
-COPY strato.yml /
 RUN cd /usr/src/open-iscsi* \
     && make install_user

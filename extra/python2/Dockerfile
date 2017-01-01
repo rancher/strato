@@ -19,6 +19,5 @@ RUN cd /usr/src/Python* \
     --enable-unicode=ucs4 \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/Python* \
     && make install

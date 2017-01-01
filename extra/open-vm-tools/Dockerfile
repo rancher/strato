@@ -21,6 +21,5 @@ RUN cd /usr/src/open-vm-tools*/open-vm-tools \
     --without-pam \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/open-vm-tools*/open-vm-tools \
     && make install

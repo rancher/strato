@@ -16,6 +16,5 @@ RUN cd /usr/src/bridge* \
     --includedir=/usr/include \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/bridge* \
     && make install

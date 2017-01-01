@@ -14,7 +14,6 @@ RUN cd /usr/src/node* \
 
 RUN mv /usr/lib/x86_64-linux-gnu/libstdc++* /
 
-COPY strato.yml /
 RUN cd /usr/src/node* \
     && make install \
     && cp /libstdc++* /usr/lib/x86_64-linux-gnu/

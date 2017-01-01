@@ -19,6 +19,5 @@ RUN cd /usr/src/nbd* \
     --enable-gznbd \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/nbd* \
     && make install

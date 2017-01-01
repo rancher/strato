@@ -11,6 +11,5 @@ RUN cd /usr/src/perl* \
     && ./Configure -des -Dprefix=/usr \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/perl* \
     && make install

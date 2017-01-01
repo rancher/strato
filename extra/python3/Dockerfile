@@ -21,6 +21,5 @@ RUN cd /usr/src/Python* \
     --with-threads \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/Python* \
     && make install

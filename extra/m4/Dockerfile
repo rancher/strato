@@ -10,6 +10,5 @@ RUN cd /m4* \
     --prefix=/usr \
     && make
 
-COPY strato.yml /
 RUN cd /m4* \
     && make install

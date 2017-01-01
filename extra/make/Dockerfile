@@ -14,6 +14,5 @@ RUN cd /make* \
     --disable-nls \
     && make
 
-COPY strato.yml /
 RUN cd /make* \
     && make install

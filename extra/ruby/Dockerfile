@@ -19,6 +19,5 @@ RUN cd /usr/src/ruby* \
     --with-mantype=man \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/ruby* \
     && make install

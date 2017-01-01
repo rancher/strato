@@ -11,7 +11,6 @@ RUN cd /usr/src/lsof* \
     && ./Configure -n linux \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/lsof*/*src \
     && install -D -m0755 -o root -g root lsof /usr/sbin/lsof \
     && install -D -m0644 -o root -g root lsof.8 /usr/share/man/man8/lsof.8

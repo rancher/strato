@@ -17,6 +17,5 @@ RUN cd /curl* \
     --with-pic \
     && make
 
-COPY strato.yml /
 RUN cd /curl* \
     && make install

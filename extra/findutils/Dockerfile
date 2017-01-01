@@ -14,6 +14,5 @@ RUN cd /usr/src/findutils* \
     --infodir=/usr/share/info \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/findutils* \
     && make install

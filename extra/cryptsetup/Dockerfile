@@ -15,6 +15,5 @@ RUN cd /usr/src/cryptsetup* \
     --with-crypto_backend=openssl \
     && make
 
-COPY strato.yml /
 RUN cd /usr/src/cryptsetup* \
     && make install
