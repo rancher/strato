@@ -3,3 +3,12 @@ exclude:
 - usr/share/doc
 - usr/share/info
 - usr/share/man
+subpackages:
+  libuuid:
+    include:
+    - lib/libuuid
+    - usr/lib/libuuid
+  libblkid:
+    include:
+    - lib/libblkid
+    - usr/lib/libblkid

@@ -10,6 +10,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"path"
 
 	"github.com/docker/docker/client"
 	"github.com/joshwget/strato/config"
@@ -26,7 +27,12 @@ type info struct {
 }
 
 func main() {
-	b, err := ioutil.ReadFile(os.Args[1])
+	inDir := os.Args[1]
+	outDir := os.Args[2]
+	packageName := path.Base(inDir)
+	configPath := path.Join(inDir, "strato.yml")
+
+	b, err := ioutil.ReadFile(configPath)
 	if err != nil {
 		panic(err)
 	}
@@ -81,31 +87,46 @@ func main() {
 		panic(err)
 	}
 
-	whitelist, blacklist, err := config.GenerateWhiteAndBlackLists(&pkg, "")
-	if err != nil {
+	b = buf.Bytes()
+	if err = generatePackage(b, outDir, packageName, &pkg); err != nil {
 		panic(err)
 	}
+	for subpackageName := range pkg.Subpackages {
+		if err = generatePackage(b, outDir, subpackageName, &pkg); err != nil {
+			panic(err)
+		}
+	}
+}
 
-	f, err := os.Create(os.Args[2])
+func generatePackage(b []byte, outDir, name string, pkg *config.Package) error {
+	// TODO: make the default package code more obvious
+	whitelist, blacklist, err := config.GenerateWhiteAndBlackLists(pkg, name)
 	if err != nil {
-		panic(err)
+		return err
+	}
+
+	f, err := os.Create(path.Join(outDir, name) + ".tar.gz")
+	if err != nil {
+		return err
 	}
 	gzipWriter := gzip.NewWriter(f)
 	packageWriter := tar.NewWriter(gzipWriter)
 
-	layerReader := bytes.NewReader(buf.Bytes())
+	layerReader := bytes.NewReader(b)
 	if err := utils.TarForEach(layerReader, whitelist, blacklist, func(tarReader io.Reader, header *tar.Header) error {
-		fmt.Println(header.Name)
+		fmt.Printf("%s | %s\n", name, header.Name)
 		packageWriter.WriteHeader(header)
-		buf = new(bytes.Buffer)
+		buf := new(bytes.Buffer)
 		io.Copy(buf, tarReader)
 		packageWriter.Write(buf.Bytes())
 		return nil
 	}); err != nil {
-		panic(err)
+		return err
 	}
 
 	packageWriter.Close()
 	gzipWriter.Close()
 	f.Close()
+
+	return nil
 }
