@@ -3,12 +3,12 @@ FROM ubuntu
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 ENV VERSION 1.4.17
 ENV LDFLAGS -s
-RUN wget ftp://ftp.gnu.org/gnu/m4/m4-${VERSION}.tar.gz
-RUN tar xf /m4*
-RUN cd /m4* \
+RUN wget -P /usr/src/ ftp://ftp.gnu.org/gnu/m4/m4-${VERSION}.tar.gz
+RUN cd /usr/src/ && tar xf m4*
+RUN cd /usr/src/m4* \
     && ./configure \
     --prefix=/usr \
     && make
 
-RUN cd /m4* \
+RUN cd /usr/src/m4* \
     && make install

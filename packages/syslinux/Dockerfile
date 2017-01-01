@@ -3,10 +3,10 @@ FROM ubuntu
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 RUN apt-get update && apt-get install -y nasm uuid-dev libblkid-dev
 ENV LDFLAGS -s
-RUN wget https://www.kernel.org/pub/linux/utils/boot/syslinux/6.xx/syslinux-6.03.tar.xz
-RUN tar xf /syslinux*
-RUN cd /syslinux* \
+RUN wget -P /usr/src/ https://www.kernel.org/pub/linux/utils/boot/syslinux/6.xx/syslinux-6.03.tar.xz
+RUN cd /usr/src/ && tar xf syslinux*
+RUN cd /usr/src/syslinux* \
     && make
 
-RUN cd /syslinux* \
+RUN cd /usr/src/syslinux* \
     && make install

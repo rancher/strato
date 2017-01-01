@@ -3,9 +3,9 @@ FROM ubuntu
 RUN apt-get update && apt-get install -y build-essential pkg-config wget
 ENV VERSION 7.51.0
 ENV LDFLAGS -s
-RUN wget http://curl.haxx.se/download/curl-${VERSION}.tar.bz2
-RUN tar xf /curl*
-RUN cd /curl* \
+RUN wget -P /usr/src/ http://curl.haxx.se/download/curl-${VERSION}.tar.bz2
+RUN cd /usr/src/ && tar xf curl*
+RUN cd /usr/src/curl* \
     && ./configure \
     --prefix=/usr \
     --enable-ipv6 \
@@ -17,5 +17,5 @@ RUN cd /curl* \
     --with-pic \
     && make
 
-RUN cd /curl* \
+RUN cd /usr/src/curl* \
     && make install
