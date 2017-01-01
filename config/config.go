@@ -9,14 +9,14 @@ const (
 )
 
 type Package struct {
-	License      string
-	Version      string
-	Description  string
-	Dependencies []string
-	Exclude      []string
-	Subpackages  map[string][]string
-	Precmd       string
-	Postcmd      string
+	License      string              `yaml:"license,omitempty"`
+	Version      string              `yaml:"version,omitempty"`
+	Description  string              `yaml:"description,omitempty"`
+	Dependencies []string            `yaml:"dependencies,omitempty"`
+	Exclude      []string            `yaml:"exclude,omitempty"`
+	Subpackages  map[string][]string `yaml:"subpackages,omitempty"`
+	Precmd       string              `yaml:"precmd,omitempty"`
+	Postcmd      string              `yaml:"postcmd,omitempty"`
 }
 
 func GenerateWhiteAndBlackLists(pkg *Package, subpackage string) ([]*regexp.Regexp, []*regexp.Regexp, error) {

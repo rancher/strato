@@ -14,3 +14,7 @@ GOOS=linux GOARCH=arm64 go build -ldflags="${CONST} -s -w" -o bin/strato_arm64
 cd extract
 go build -o ../bin/extract
 cd -
+
+cd index
+go build -o ../bin/index
+cd -

@@ -3,6 +3,7 @@ package add
 import (
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"path"
@@ -10,24 +11,58 @@ import (
 
 	"github.com/urfave/cli"
 
+	"github.com/joshwget/strato/config"
 	"github.com/joshwget/strato/state"
 	"github.com/joshwget/strato/utils"
 	"github.com/joshwget/strato/version"
+	"gopkg.in/yaml.v2"
 )
 
 func Action(c *cli.Context) error {
 	source := c.GlobalString("source")
 	dir := c.String("dir")
 
+	var b []byte
+	var err error
+	if path.IsAbs(source) {
+		b, err = ioutil.ReadFile(path.Join(source, "index.yml"))
+		if err != nil {
+			return err
+		}
+	} else {
+		resp, err := http.Get(source + "index.yml")
+		if err != nil {
+			return err
+		}
+		b, err = ioutil.ReadAll(resp.Body)
+		if err != nil {
+			return err
+		}
+	}
+
+	index := map[string]config.Package{}
+	if err := yaml.Unmarshal(b, &index); err != nil {
+		panic(err)
+	}
+
+	packageMap := map[string]bool{}
+	for _, pkg := range c.Args() {
+		packageMap[pkg] = true
+		// TODO: should be recursive
+		for _, dependency := range index[pkg].Dependencies {
+			packageMap[dependency] = true
+		}
+	}
+
 	var installs sync.WaitGroup
-	for _, image := range c.Args() {
+	for pkg := range packageMap {
 		installs.Add(1)
-		go func(image string) {
+		go func(pkg string) {
 			defer installs.Done()
-			if err := add(dir, source+image+".tar.gz"); err != nil {
+			if err := add(dir, source+pkg+".tar.gz"); err != nil {
 				panic(err)
 			}
-		}(image)
+		}(pkg)
 	}
 	installs.Wait()
 
