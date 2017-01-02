@@ -4,6 +4,12 @@ exclude:
 - usr/share/info
 - usr/share/man
 subpackages:
+  agetty:
+    include:
+    - sbin/agetty
+  partx:
+    include:
+    - usr/sbin/partx
   libuuid:
     include:
     - lib/libuuid
