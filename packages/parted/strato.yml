@@ -3,3 +3,6 @@ exclude:
 - usr/share/doc
 - usr/share/info
 - usr/share/man
+dependencies:
+- libuuid
+- libblkid
