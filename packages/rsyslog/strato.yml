@@ -3,3 +3,4 @@ exclude:
 - usr/share/doc
 - usr/share/info
 - usr/share/man
+- lib/systemd
