@@ -4,4 +4,4 @@ set -e
 #source $(dirname $0)/version
 cd $(dirname $0)/..
 
-docker run -it -v ${PWD}/dist:/packages strato sh
+docker run -it -v ${PWD}/dist:/packages -v ${PWD}/assets/repositories-dev:/etc/strato/repositories strato sh

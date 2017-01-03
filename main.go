@@ -16,8 +16,7 @@ func main() {
 			Name: "verbose",
 		},
 		cli.StringFlag{
-			Name:  "source",
-			Value: "/packages/",
+			Name: "source",
 		},
 	}
 	app.Commands = []cli.Command{

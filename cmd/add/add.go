@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 	"sync"
 
 	"github.com/urfave/cli"
@@ -18,14 +19,27 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func Action(c *cli.Context) error {
-	source := c.GlobalString("source")
-	dir := c.String("dir")
+const (
+	// TODO: move to different package
+	repositoriesFile = "/etc/strato/repositories"
+)
 
-	var b []byte
+func Action(c *cli.Context) error {
+	dir := c.String("dir")
+	source := c.GlobalString("source")
+
+	if source == "" {
+		repositoriesFileBytes, err := ioutil.ReadFile(repositoriesFile)
+		if err != nil {
+			return err
+		}
+		source = strings.Trim(string(repositoriesFileBytes), "\n")
+	}
+
+	var indexBytes []byte
 	var err error
 	if path.IsAbs(source) {
-		b, err = ioutil.ReadFile(path.Join(source, "index.yml"))
+		indexBytes, err = ioutil.ReadFile(path.Join(source, "index.yml"))
 		if err != nil {
 			return err
 		}
@@ -34,15 +48,15 @@ func Action(c *cli.Context) error {
 		if err != nil {
 			return err
 		}
-		b, err = ioutil.ReadAll(resp.Body)
+		indexBytes, err = ioutil.ReadAll(resp.Body)
 		if err != nil {
 			return err
 		}
 	}
 
 	index := map[string]config.Package{}
-	if err := yaml.Unmarshal(b, &index); err != nil {
-		panic(err)
+	if err := yaml.Unmarshal(indexBytes, &index); err != nil {
+		return err
 	}
 
 	packageMap := map[string]bool{}

@@ -13,6 +13,7 @@ import (
 	"github.com/joshwget/strato/config"
 )
 
+// TODO: not exactly thread safe...
 var Size float64
 
 func ExtractTar(reader io.Reader, target string, whitelist, blacklist []*regexp.Regexp) error {
