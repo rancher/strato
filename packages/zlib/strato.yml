@@ -1,5 +1,10 @@
 exclude:
-- usr/include
 - usr/share/doc
 - usr/share/info
 - usr/share/man
+subpackages:
+  zlib-dev:
+    include:
+    - usr/include
+    dependencies:
+    - zlib
