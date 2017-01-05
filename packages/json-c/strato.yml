@@ -1,5 +1,10 @@
 exclude:
-- usr/include
 - usr/share/doc
 - usr/share/info
 - usr/share/man
+subpackages:
+  json-c-dev:
+    include:
+    - usr/include
+    dependencies:
+    - json-c
