@@ -1,5 +1,4 @@
 exclude:
-- usr/include
 - usr/share/doc
 - usr/share/info
 - usr/share/man
@@ -18,3 +17,9 @@ subpackages:
     include:
     - lib/libblkid
     - usr/lib/libblkid
+  util-linux-dev:
+    include:
+    - usr/include
+    dependencies:
+    - libuuid
+    - libblkid
