@@ -3,3 +3,9 @@ exclude:
 - usr/share/doc
 - usr/share/info
 - usr/share/man
+subpackages:
+  ncurses-dev:
+    include:
+    - usr/include
+    dependencies:
+    - ncurses
