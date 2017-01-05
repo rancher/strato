@@ -1,5 +1,10 @@
 exclude:
-- usr/include
 - usr/share/doc
 - usr/share/info
 - usr/share/man
+subpackages:
+  readline-dev:
+    include:
+    - usr/include
+    dependencies:
+    - readline
