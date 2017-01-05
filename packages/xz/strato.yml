@@ -1,5 +1,16 @@
 exclude:
-- usr/include
 - usr/share/doc
 - usr/share/info
 - usr/share/man
+dependencies:
+- xz-libs
+subpackages:
+  xz-libs:
+    include:
+    - lib
+    - usr/lib
+  xz-dev:
+    include:
+    - usr/include
+    dependencies:
+    - xz-libs
