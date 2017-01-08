@@ -23,7 +23,7 @@ for i in $BASE/*; do
     fi
 
     if dapper -d --build -f ${i}/Dockerfile -- -t package ${i}; then
-        ./bin/extract ${i} ./dist
+        ./bin/strato extract ${i} ./dist
     elif [ "$?" != "42" ]; then
         exit 1
     else
@@ -31,4 +31,4 @@ for i in $BASE/*; do
     fi
 done
 
-./bin/index ${BASE} dist
+./bin/strato index ${BASE} dist

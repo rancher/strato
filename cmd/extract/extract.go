@@ -1,4 +1,4 @@
-package main
+package extract
 
 import (
 	"archive/tar"
@@ -15,6 +15,7 @@ import (
 	"github.com/docker/docker/client"
 	"github.com/joshwget/strato/config"
 	"github.com/joshwget/strato/utils"
+	"github.com/urfave/cli"
 	"gopkg.in/yaml.v2"
 )
 
@@ -26,30 +27,30 @@ type info struct {
 	Layers []string `json:"Layers"`
 }
 
-func main() {
-	inDir := os.Args[1]
-	outDir := os.Args[2]
+func Action(c *cli.Context) error {
+	inDir := c.Args()[0]
+	outDir := c.Args()[1]
 	packageName := path.Base(inDir)
 	configPath := path.Join(inDir, "strato.yml")
 
 	b, err := ioutil.ReadFile(configPath)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	var pkg config.Package
 	if err := yaml.Unmarshal(b, &pkg); err != nil {
-		panic(err)
+		return err
 	}
 
 	cli, err := client.NewEnvClient()
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	reader, err := cli.ImageSave(context.Background(), []string{imageName})
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	buf := new(bytes.Buffer)
@@ -59,12 +60,12 @@ func main() {
 		}
 		return nil
 	}); err != nil {
-		panic(err)
+		return err
 	}
 
 	var infos []info
 	if err := json.Unmarshal(buf.Bytes(), &infos); err != nil {
-		panic(err)
+		return err
 	}
 
 	layers := infos[0].Layers
@@ -74,7 +75,7 @@ func main() {
 
 	reader, err = cli.ImageSave(context.Background(), []string{imageName})
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	buf = new(bytes.Buffer)
@@ -84,18 +85,20 @@ func main() {
 		}
 		return nil
 	}); err != nil {
-		panic(err)
+		return err
 	}
 
 	b = buf.Bytes()
 	if err = generatePackage(b, outDir, packageName, &pkg); err != nil {
-		panic(err)
+		return err
 	}
 	for subpackageName := range pkg.Subpackages {
 		if err = generatePackage(b, outDir, subpackageName, &pkg); err != nil {
-			panic(err)
+			return err
 		}
 	}
+
+	return nil
 }
 
 func generatePackage(b []byte, outDir, name string, pkg *config.Package) error {
