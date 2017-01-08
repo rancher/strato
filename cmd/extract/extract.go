@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/docker/docker/client"
 	"github.com/joshwget/strato/config"
@@ -30,8 +31,12 @@ type info struct {
 func Action(c *cli.Context) error {
 	inDir := c.Args()[0]
 	outDir := c.Args()[1]
-	packageName := path.Base(inDir)
 	configPath := path.Join(inDir, "strato.yml")
+
+	packageName := path.Base(inDir)
+	if strings.Contains(packageName, ".") {
+		packageName = strings.SplitN(packageName, ".", 2)[1]
+	}
 
 	b, err := ioutil.ReadFile(configPath)
 	if err != nil {

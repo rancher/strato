@@ -3,6 +3,7 @@ package index
 import (
 	"io/ioutil"
 	"path"
+	"strings"
 
 	"github.com/joshwget/strato/config"
 	"github.com/urfave/cli"
@@ -31,11 +32,20 @@ func Action(c *cli.Context) error {
 			return err
 		}
 
-		pkg.Exclude = nil
-		// TODO: split out subpackages
-		pkg.Subpackages = nil
+		packageName := file.Name()
+		if strings.Contains(packageName, ".") {
+			packageName = strings.SplitN(packageName, ".", 2)[1]
+		}
 
-		packageMap[file.Name()] = pkg
+		packageMap[packageName] = config.Package{
+			Dependencies: pkg.Dependencies,
+		}
+
+		for subpackageName, subpackage := range pkg.Subpackages {
+			packageMap[subpackageName] = config.Package{
+				Dependencies: subpackage.Dependencies,
+			}
+		}
 	}
 
 	b, err := yaml.Marshal(packageMap)
