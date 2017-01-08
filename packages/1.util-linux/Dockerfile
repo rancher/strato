@@ -1,4 +1,5 @@
 FROM strato-build
+RUN strato add xz-dev
 
 ENV VERSION 2.29
 ENV LDFLAGS -s

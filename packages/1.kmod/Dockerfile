@@ -1,4 +1,5 @@
 FROM strato-build
+RUN strato add xz-dev
 
 ENV VERSION 23
 ENV LDFLAGS -s
