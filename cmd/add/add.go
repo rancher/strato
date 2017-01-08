@@ -110,7 +110,7 @@ func add(dir string, packages ...string) error {
 		}
 
 		fmt.Printf("Installing package %s", fmt.Sprintf("%s:%s", image, version.Tag))
-		if err = utils.ExtractTar(packageReader, dir, nil, nil); err != nil {
+		if err = utils.ExtractGzipTar(packageReader, dir, nil, nil); err != nil {
 			return err
 		}
 		packageReader.Close()

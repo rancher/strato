@@ -5,6 +5,7 @@ import (
 
 	"github.com/joshwget/strato/cmd/add"
 	"github.com/joshwget/strato/cmd/inspect"
+	"github.com/joshwget/strato/cmd/xf"
 	"github.com/urfave/cli"
 )
 
@@ -36,6 +37,12 @@ func main() {
 			HideHelp:        true,
 			SkipFlagParsing: true,
 			Action:          inspect.Action,
+		},
+		{
+			Name:            "xf",
+			HideHelp:        true,
+			SkipFlagParsing: true,
+			Action:          xf.Action,
 		},
 	}
 	if err := app.Run(os.Args); err != nil {
