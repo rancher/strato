@@ -18,9 +18,8 @@ mkdir -p dist
 
 for i in $BASE/*; do
     name=$(basename ${i})
-    tag="${name}:${TAG}"
 
-    echo Building ${tag} from ${i}
+    echo Building ${i}
     if [ -e ${i}/prebuild.sh ]; then
         ${i}/prebuild.sh
     fi
@@ -30,6 +29,6 @@ for i in $BASE/*; do
     elif [ "$?" != "42" ]; then
         exit 1
     else
-        echo "Skipping ${tag}"
+        echo "Skipping ${i}"
     fi
 done
