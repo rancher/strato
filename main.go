@@ -4,6 +4,8 @@ import (
 	"os"
 
 	"github.com/joshwget/strato/cmd/add"
+	"github.com/joshwget/strato/cmd/extract"
+	"github.com/joshwget/strato/cmd/index"
 	"github.com/joshwget/strato/cmd/inspect"
 	"github.com/joshwget/strato/cmd/xf"
 	"github.com/urfave/cli"
@@ -31,6 +33,18 @@ func main() {
 					Value: "/",
 				},
 			},
+		},
+		{
+			Name:            "extract",
+			HideHelp:        true,
+			SkipFlagParsing: true,
+			Action:          extract.Action,
+		},
+		{
+			Name:            "index",
+			HideHelp:        true,
+			SkipFlagParsing: true,
+			Action:          index.Action,
 		},
 		{
 			Name:            "inspect",

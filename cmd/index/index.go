@@ -1,34 +1,34 @@
-package main
+package index
 
 import (
 	"io/ioutil"
-	"os"
 	"path"
 
 	"github.com/joshwget/strato/config"
+	"github.com/urfave/cli"
 	"gopkg.in/yaml.v2"
 )
 
-func main() {
-	inDir := os.Args[1]
-	outDir := os.Args[2]
+func Action(c *cli.Context) error {
+	inDir := c.Args()[0]
+	outDir := c.Args()[1]
 
 	packageMap := map[string]config.Package{}
 
 	files, err := ioutil.ReadDir(inDir)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	for _, file := range files {
 		b, err := ioutil.ReadFile(path.Join(inDir, file.Name(), config.Filename))
 		if err != nil {
-			panic(err)
+			return err
 		}
 
 		var pkg config.Package
 		if err := yaml.Unmarshal(b, &pkg); err != nil {
-			panic(err)
+			return err
 		}
 
 		pkg.Exclude = nil
@@ -40,10 +40,8 @@ func main() {
 
 	b, err := yaml.Marshal(packageMap)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
-	if err = ioutil.WriteFile(path.Join(outDir, "index.yml"), b, 0644); err != nil {
-		panic(err)
-	}
+	return ioutil.WriteFile(path.Join(outDir, "index.yml"), b, 0644)
 }
