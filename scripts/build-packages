@@ -2,7 +2,6 @@
 set -e
 
 BASE=packages
-ORG=stratopkg
 
 if [ -n "$1" ]; then
     BASE=$1
@@ -11,7 +10,11 @@ fi
 source $(dirname $0)/version
 cd $(dirname $0)/..
 
+dapper -d --build -f Dockerfile.build -- -t strato-build .
+
 mkdir -p dist
+
+./bin/strato index ${BASE} dist
 
 for i in $BASE/*; do
     name=$(basename ${i})
@@ -30,5 +33,3 @@ for i in $BASE/*; do
         echo "Skipping ${tag}"
     fi
 done
-
-./bin/strato index ${BASE} dist
