@@ -41,6 +41,13 @@ RUN cd /usr/src/make* \
 
 All packages are currently built using Ubuntu 16.04 as the base image, but the goal is to eventually have enough packages for strato to be able to build itself.
 
+### How to build the packages
+
+The base Dockerfiles are in the packages directory in this repository. To build them, you need `dapper` - from https://github.com/rancher/dapper/releases
+
+Run `dapper build-bin` to build the binaries in this repo, then build the tarballs using `dapper build-packages`
+The tarballs will be in the `dist` dir - and can then be uploaded to somewhere that you can get to them.
+
 ## Base image
 
 The strato base image includes busybox, glibc, and the strato package manager.
