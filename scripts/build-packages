@@ -13,6 +13,8 @@ cd $(dirname $0)/..
 
 mkdir -p dist
 
+./bin/strato index ${BASE} dist
+
 for i in $BASE/*; do
     name=$(basename ${i})
     tag="${name}:${TAG}"
@@ -30,5 +32,3 @@ for i in $BASE/*; do
         echo "Skipping ${tag}"
     fi
 done
-
-./bin/strato index ${BASE} dist
