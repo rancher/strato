@@ -1,7 +1,5 @@
-FROM ubuntu
-# FROM amd64=ubuntu:16.04 arm64=aarch64/ubuntu:16.04 arm=armhf/ubuntu:16.04
-RUN apt-get update && apt-get install -y build-essential pkg-config wget
-RUN apt-get update && apt-get install -y bison flex iptables-dev
+FROM strato-build
+
 ENV VERSION 4.7.0
 ENV LDFLAGS -s
 RUN wget -P /usr/src/ http://kernel.org/pub/linux/utils/net/iproute2/iproute2-${VERSION}.tar.xz

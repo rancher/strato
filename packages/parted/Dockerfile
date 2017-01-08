@@ -1,8 +1,5 @@
-FROM ubuntu
-# FROM amd64=ubuntu:16.04 arm64=aarch64/ubuntu:16.04 arm=armhf/ubuntu:16.04
-RUN apt-get update && apt-get install -y build-essential pkg-config wget
-RUN apt-get update && apt-get install -y zlib1g-dev liblzma-dev
-RUN apt-get update && apt-get install -y uuid-dev libblkid-dev liblvm2-dev
+FROM strato-build
+
 ENV VERSION 3.2
 ENV LDFLAGS -s
 RUN wget -P /usr/src/ ftp://ftp.gnu.org/pub/gnu/parted/parted-${VERSION}.tar.xz
