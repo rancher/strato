@@ -2,7 +2,6 @@
 set -e
 
 BASE=packages
-ORG=stratopkg
 
 if [ -n "$1" ]; then
     BASE=$1
@@ -10,6 +9,8 @@ fi
 
 source $(dirname $0)/version
 cd $(dirname $0)/..
+
+dapper -d --build -f Dockerfile.build -- -t strato-build .
 
 mkdir -p dist
 
