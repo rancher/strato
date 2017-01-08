@@ -17,6 +17,10 @@ import (
 var Size float64
 
 func ExtractTar(reader io.Reader, target string, whitelist, blacklist []*regexp.Regexp) error {
+	return TarForEach(reader, whitelist, blacklist, writeFile(target))
+}
+
+func ExtractGzipTar(reader io.Reader, target string, whitelist, blacklist []*regexp.Regexp) error {
 	return GzipTarForEach(reader, whitelist, blacklist, writeFile(target))
 }
 
