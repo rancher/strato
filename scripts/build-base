@@ -40,17 +40,12 @@ layout_root () {
     cp -r ${ASSETS}/certs $1/etc/ssl
     cp ${ASSETS}/group ${ASSETS}/passwd ${ASSETS}/profile ${ASSETS}/shadow ${ASSETS}/shells $1/etc
     cp ${ASSETS}/get-arch $1/usr/bin
-
-    tar -xf ${ASSETS}/${ARCH}/gccbase.tar -C $1
-    tar -xf ${ASSETS}/${ARCH}/libgcc.tar -C $1
-    tar -xf ${ASSETS}/${ARCH}/libc6.tar -C $1
-    rm -rf $1/usr/share/*
 }
 
 layout_root ${BUILD}
 layout_root ${BUILD2}
 
-./bin/strato --source=${PWD}/dist/ add --dir=${BUILD} busybox
+./bin/strato --source=${PWD}/dist/ add --dir=${BUILD} glibc busybox
 
 cd ${BUILD}
 tar -cvf rootfs.tar .
@@ -58,7 +53,7 @@ cd -
 mv ${BUILD}/rootfs.tar .
 rm -rf ${BUILD}
 
-./bin/strato --source=${PWD}/dist/ add --dir=${BUILD2} busybox openssl
+./bin/strato --source=${PWD}/dist/ add --dir=${BUILD2} glibc busybox openssl
 
 cd ${BUILD2}
 tar -cvf rootfs-min.tar .

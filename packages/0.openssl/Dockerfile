@@ -1,10 +1,7 @@
 FROM strato-build
 
-# Borrow OpenSSL from Ubuntu for now
-COPY assets /
+# TODO: this shouldn't need to be removed
+RUN rm /usr/share/doc/openssl/changelog.gz
 
-# TODO: bug is causing wrong layer to be extracted if COPY is second to last
-RUN true
-
-RUN tar xvf "$(uname -m)/libssl.tar" -C / \
-    && tar xvf "$(uname -m)/openssl.tar" -C /
+RUN install-deb http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.0.0_1.0.2g-1ubuntu4.5_amd64.deb \
+    && install-deb http://security.ubuntu.com/ubuntu/pool/main/o/openssl/openssl_1.0.2g-1ubuntu4.5_amd64.deb

@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+wget -P /usr/src/ $1
+cd /usr/src/
+ar vx *.deb
+unxz data.tar.xz
+strato xf data.tar
+rm *
