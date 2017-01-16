@@ -1,7 +1,7 @@
 FROM strato-build
 
 ENV LDFLAGS -s
-RUN wget -P /usr/src/ http://zlib.net/zlib-1.2.10.tar.gz
+RUN wget -P /usr/src/ http://zlib.net/zlib-1.2.11.tar.gz
 RUN cd /usr/src/ && tar xf zlib*
 RUN cd /usr/src/zlib* \
     && ./configure \
