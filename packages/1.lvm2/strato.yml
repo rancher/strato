@@ -1,0 +1,16 @@
+exclude:
+- usr/share/doc
+- usr/share/info
+- usr/share/man
+dependencies:
+- lvm2-libs
+subpackages:
+  lvm2-libs:
+    include:
+    - lib
+    - usr/lib
+  lvm2-dev:
+    include:
+    - usr/include
+    dependencies:
+    - lvm2-libs

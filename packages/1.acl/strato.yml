@@ -1,0 +1,16 @@
+exclude:
+- usr/share/doc
+- usr/share/info
+- usr/share/man
+dependencies:
+- libacl
+subpackages:
+  libacl:
+    include:
+    - lib
+    - usr/lib
+  acl-dev:
+    include:
+    - usr/include
+    dependencies:
+    - libacl
