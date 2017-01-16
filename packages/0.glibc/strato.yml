@@ -1,0 +1,5 @@
+exclude:
+- usr/include
+- usr/share/doc
+- usr/share/info
+- usr/share/man
