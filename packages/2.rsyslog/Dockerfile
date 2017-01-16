@@ -1,5 +1,5 @@
 FROM strato-build
-RUN strato add xz-dev
+RUN strato add xz-dev acl-dev popt-dev lvm2-dev json-c-dev libestr-dev
 
 ENV VERSION 8.16.0
 ENV LDFLAGS -s
