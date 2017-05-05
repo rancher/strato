@@ -5,7 +5,7 @@ import (
 
 	"github.com/urfave/cli"
 
-	"github.com/joshwget/strato/utils"
+	"github.com/joshwget/strato/src/utils"
 )
 
 func Action(c *cli.Context) error {
