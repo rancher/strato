@@ -38,7 +38,6 @@ layout_root () {
 
     cp -r ${ASSETS}/certs $1/etc/ssl
     cp ${ASSETS}/group ${ASSETS}/passwd ${ASSETS}/profile ${ASSETS}/shadow ${ASSETS}/shells $1/etc
-    cp ${ASSETS}/get-arch $1/usr/bin
 }
 
 layout_root ${BUILD}
