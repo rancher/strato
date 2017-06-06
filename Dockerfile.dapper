@@ -14,7 +14,7 @@ RUN apt-get update && \
 
 ENV DAPPER_ENV VERSION DEV_BUILD RUNTEST
 ENV DAPPER_DOCKER_SOCKET true
-ENV DAPPER_SOURCE /go/src/github.com/joshwget/strato
+ENV DAPPER_SOURCE /go/src/github.com/rancher/strato
 ENV DAPPER_OUTPUT ./bin ./dist
 ENV DAPPER_RUN_ARGS --privileged
 ENV TRASH_CACHE ${DAPPER_SOURCE}/.trash-cache

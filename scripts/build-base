@@ -31,7 +31,7 @@ layout_root () {
 
     touch $1/var/lib/strato/packages
     # TODO: make this customizable
-    echo "https://github.com/joshwget/strato-packages/raw/master/${VERSION}/${ARCH}/" > $1/etc/strato/repositories
+    echo "https://github.com/rancher/strato-packages/raw/master/${VERSION}/${ARCH}/" > $1/etc/strato/repositories
     install -m 0555 -d $1/var/empty
     install -m 0700 -d $1/root
     install -m 1777 -d $1/tmp $1/var/tmp

@@ -10,7 +10,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/joshwget/strato/src/config"
+	"github.com/rancher/strato/src/config"
 )
 
 // TODO: not exactly thread safe...

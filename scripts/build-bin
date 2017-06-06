@@ -4,7 +4,7 @@ set -e
 source $(dirname $0)/version
 cd $(dirname $0)/..
 
-CONST="-X github.com/joshwget/strato/src/version.Version=${VERSION}"
+CONST="-X github.com/rancher/strato/src/version.Version=${VERSION}"
 
 go build -ldflags="${CONST} -s -w" -o bin/strato src/main.go
 GOOS=linux GOARCH=amd64 go build -ldflags="${CONST} -s -w" -o bin/strato_amd64 src/main.go
