@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+
+cd $(dirname $0)/..
+
+mkdir -p dist
+
+docker run -d --name strato-server -v $(pwd)/dist:/var/www/html:ro joshix/caddy
+IP=$(docker inspect --format "{{.NetworkSettings.Networks.bridge.IPAddress}}" strato-server)
+echo "http://$IP:2015/" > assets/repositories-build
