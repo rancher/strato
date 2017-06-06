@@ -3,11 +3,11 @@ package main
 import (
 	"os"
 
-	"github.com/joshwget/strato/src/cmd/add"
-	"github.com/joshwget/strato/src/cmd/extract"
-	"github.com/joshwget/strato/src/cmd/index"
-	"github.com/joshwget/strato/src/cmd/inspect"
-	"github.com/joshwget/strato/src/cmd/xf"
+	"github.com/rancher/strato/src/cmd/add"
+	"github.com/rancher/strato/src/cmd/extract"
+	"github.com/rancher/strato/src/cmd/index"
+	"github.com/rancher/strato/src/cmd/inspect"
+	"github.com/rancher/strato/src/cmd/xf"
 	"github.com/urfave/cli"
 )
 

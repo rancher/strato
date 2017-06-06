@@ -14,8 +14,8 @@ import (
 	"strings"
 
 	"github.com/docker/docker/client"
-	"github.com/joshwget/strato/src/config"
-	"github.com/joshwget/strato/src/utils"
+	"github.com/rancher/strato/src/config"
+	"github.com/rancher/strato/src/utils"
 	"github.com/urfave/cli"
 	"gopkg.in/yaml.v2"
 )

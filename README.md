@@ -3,9 +3,9 @@
 strato is a package manager and minimal container base image. All packages in strato are created by a simple and containerized build process. The latest version is 0.0.2.
 
 ```
-docker run -it --rm joshwget/strato:0.0.2 sh
-/ # strato --source="https://github.com/joshwget/strato-packages/raw/master/0.0.2/$(get-arch)/" add bash
-Installing package https://github.com/joshwget/strato-packages/raw/master/0.0.2/amd64/bash.tar.gz:dev/bin
+docker run -it --rm rancher/strato:0.0.2 sh
+/ # strato --source="https://github.com/rancher/strato-packages/raw/master/0.0.2/$(get-arch)/" add bash
+Installing package https://github.com/rancher/strato-packages/raw/master/0.0.2/amd64/bash.tar.gz:dev/bin
 /bin/bash
 /bin/bashbug
 /usr

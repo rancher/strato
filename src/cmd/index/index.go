@@ -5,7 +5,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/joshwget/strato/src/config"
+	"github.com/rancher/strato/src/config"
 	"github.com/urfave/cli"
 	"gopkg.in/yaml.v2"
 )

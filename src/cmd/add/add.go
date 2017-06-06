@@ -12,10 +12,10 @@ import (
 
 	"github.com/urfave/cli"
 
-	"github.com/joshwget/strato/src/config"
-	"github.com/joshwget/strato/src/state"
-	"github.com/joshwget/strato/src/utils"
-	"github.com/joshwget/strato/src/version"
+	"github.com/rancher/strato/src/config"
+	"github.com/rancher/strato/src/state"
+	"github.com/rancher/strato/src/utils"
+	"github.com/rancher/strato/src/version"
 	"gopkg.in/yaml.v2"
 )
 
