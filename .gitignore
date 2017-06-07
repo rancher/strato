@@ -1,5 +1,6 @@
 .DS_Store
 /assets/ca.crt
+assets/repositories-build
 /bin
 /build
 /dist

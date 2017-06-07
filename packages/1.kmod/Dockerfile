@@ -3,7 +3,7 @@ RUN strato add xz-dev
 
 ENV VERSION 23
 ENV LDFLAGS -s
-RUN wget -P /usr/src/ http://ftp.kernel.org/pub/linux/utils/kernel/kmod/kmod-${VERSION}.tar.xz
+RUN wget -P /usr/src/ http://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-${VERSION}.tar.xz
 RUN cd /usr/src/ && tar xf kmod*
 RUN cd /usr/src/kmod* \
     && ./configure \

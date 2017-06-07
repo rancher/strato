@@ -2,7 +2,7 @@ FROM strato-build
 
 ENV VERSION 2.02.168
 ENV LDFLAGS -s
-RUN wget -P /usr/src/ ftp://sources.redhat.com/pub/lvm2/LVM2.${VERSION}.tgz
+RUN wget -P /usr/src/ https://mirrors.kernel.org/sourceware/lvm2/LVM2.${VERSION}.tgz
 RUN cd /usr/src/ && tar xf LVM2*
 RUN cd /usr/src/LVM2* \
     && ./configure \
