@@ -11,8 +11,8 @@ import (
 )
 
 func Action(c *cli.Context) error {
-	inDir := c.Args()[0]
-	outDir := c.Args()[1]
+	inDir := c.Args().Get(0)
+	outDir := c.Args().Get(1)
 
 	packageMap := map[string]config.Package{}
 

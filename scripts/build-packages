@@ -20,12 +20,9 @@ for i in $BASE/*; do
     name=$(basename ${i})
 
     echo Building ${i}
-    if [ -e ${i}/prebuild.sh ]; then
-        ${i}/prebuild.sh
-    fi
 
-    if dapper -d --build -f ${i}/Dockerfile -- -t package ${i}; then
-        ./bin/strato extract ${i} ./dist
+    if ./bin/strato build ${i} ./dist; then
+        echo "OK ${i}"
     elif [ "$?" != "42" ]; then
         exit 1
     else

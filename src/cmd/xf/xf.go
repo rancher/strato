@@ -9,7 +9,7 @@ import (
 )
 
 func Action(c *cli.Context) error {
-	filename := c.Args()[0]
+	filename := c.Args().Get(0)
 
 	f, err := os.Open(filename)
 	if err != nil {

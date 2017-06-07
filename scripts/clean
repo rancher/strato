@@ -3,3 +3,5 @@
 cd $(dirname $0)/..
 
 rm -rf build dist
+docker rmi $(docker images --format "{{.Repository}}:{{.Tag}}" | grep -E '^(stratopkg|build)/') || true
+docker image prune -f || true

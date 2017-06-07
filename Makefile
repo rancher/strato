@@ -22,6 +22,9 @@ stopweb:
 
 strato: build-bin
 
+clean:
+	./scripts/clean
+
 .DEFAULT_GOAL := default
 
-.PHONY: $(TARGETS)
+.PHONY: $(TARGETS) clean
