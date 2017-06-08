@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/rancher/strato/src/cmd/add"
+	"github.com/rancher/strato/src/cmd/build"
 	"github.com/rancher/strato/src/cmd/extract"
 	"github.com/rancher/strato/src/cmd/index"
 	"github.com/rancher/strato/src/cmd/inspect"
@@ -25,6 +26,7 @@ func main() {
 	app.Commands = []cli.Command{
 		{
 			Name:     "add",
+			Usage:    "add/install a package",
 			HideHelp: true,
 			Action:   add.Action,
 			Flags: []cli.Flag{
@@ -34,14 +36,17 @@ func main() {
 				},
 			},
 		},
+		build.Command,
 		{
 			Name:            "extract",
+			Usage:           "Extract the last layer from the built image",
 			HideHelp:        true,
 			SkipFlagParsing: true,
 			Action:          extract.Action,
 		},
 		{
 			Name:            "index",
+			Usage:           "Generate index.yml file from XXXXX",
 			HideHelp:        true,
 			SkipFlagParsing: true,
 			Action:          index.Action,
@@ -57,6 +62,7 @@ func main() {
 			HideHelp:        true,
 			SkipFlagParsing: true,
 			Action:          xf.Action,
+			Hidden:          true,
 		},
 	}
 	if err := app.Run(os.Args); err != nil {

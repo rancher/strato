@@ -3,6 +3,9 @@ exclude:
 - usr/share/info
 - usr/share/man
 subpackages:
+  sfdisk:
+    include:
+    - sbin/sfdisk
   agetty:
     include:
     - sbin/agetty
