@@ -4,9 +4,12 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"path"
+	"runtime"
 	"strings"
 	"sync"
 
@@ -31,31 +34,45 @@ func Action(c *cli.Context) error {
 	if source == "" {
 		repositoriesFileBytes, err := ioutil.ReadFile(repositoriesFile)
 		if err != nil {
+			log.Panic(err)
 			return err
 		}
 		source = strings.Trim(string(repositoriesFileBytes), "\n")
 	}
+	source = source + "/" + runtime.GOARCH + "/"
 
 	var indexBytes []byte
 	var err error
 	if path.IsAbs(source) {
 		indexBytes, err = ioutil.ReadFile(path.Join(source, "index.yml"))
 		if err != nil {
+			log.Panic(err)
 			return err
 		}
 	} else {
-		resp, err := http.Get(source + "index.yml")
+		u, err := url.Parse(source)
+		u.Path = path.Join(u.Path, "index.yml")
+		resp, err := http.Get(u.String())
 		if err != nil {
+			log.Panic(err)
+			return err
+		}
+		if resp.StatusCode < 200 || resp.StatusCode > 299 {
+			err = fmt.Errorf("Error getting %s: %v", u.String(), resp.Status)
+			log.Panic(err)
 			return err
 		}
 		indexBytes, err = ioutil.ReadAll(resp.Body)
+		resp.Body.Close()
 		if err != nil {
+			log.Panic(err)
 			return err
 		}
 	}
 
 	index := map[string]config.Package{}
 	if err := yaml.Unmarshal(indexBytes, &index); err != nil {
+		log.Panic(err)
 		return err
 	}
 
@@ -74,7 +91,7 @@ func Action(c *cli.Context) error {
 		go func(pkg string) {
 			defer installs.Done()
 			if err := add(dir, source+pkg+".tar.gz"); err != nil {
-				panic(err)
+				log.Panic(err)
 			}
 		}(pkg)
 	}

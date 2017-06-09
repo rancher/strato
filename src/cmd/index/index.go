@@ -6,13 +6,17 @@ import (
 	"strings"
 
 	"github.com/rancher/strato/src/config"
+	"github.com/rancher/strato/src/utils"
 	"github.com/urfave/cli"
 	"gopkg.in/yaml.v2"
 )
 
 func Action(c *cli.Context) error {
 	inDir := c.Args().Get(0)
-	outDir := c.Args().Get(1)
+	outDir, err := utils.GetOutDir(c.Args().Get(1))
+	if err != nil {
+		return err
+	}
 
 	packageMap := map[string]config.Package{}
 

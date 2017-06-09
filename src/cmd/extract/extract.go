@@ -30,7 +30,10 @@ type info struct {
 
 func Action(c *cli.Context) error {
 	inDir := c.Args().Get(0)
-	outDir := c.Args().Get(1)
+	outDir, err := utils.GetOutDir(c.Args().Get(1))
+	if err != nil {
+		return err
+	}
 	return Extract(inDir, outDir)
 }
 

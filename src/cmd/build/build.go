@@ -15,6 +15,7 @@ import (
 	"fmt"
 
 	"github.com/rancher/strato/src/cmd/extract"
+	"github.com/rancher/strato/src/utils"
 	"github.com/urfave/cli"
 )
 
@@ -36,8 +37,8 @@ func buildAction(c *cli.Context) error {
 	if _, err := os.Stat(filepath.Join(inDir, "strato.yml")); os.IsNotExist(err) {
 		return err
 	}
-	outDir := c.Args().Get(1)
-	if _, err := os.Stat(outDir); os.IsNotExist(err) {
+	outDir, err := utils.GetOutDir(c.Args().Get(1))
+	if err != nil {
 		return err
 	}
 
