@@ -6,6 +6,8 @@ subpackages:
   sfdisk:
     include:
     - sbin/sfdisk
+    - lib/libfdisk
+    - lib/libsmartcols
   agetty:
     include:
     - sbin/agetty

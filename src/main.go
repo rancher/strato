@@ -56,6 +56,7 @@ func main() {
 			HideHelp:        true,
 			SkipFlagParsing: true,
 			Action:          inspect.Action,
+			Hidden:          true,
 		},
 		{
 			Name:            "xf",
