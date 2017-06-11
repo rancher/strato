@@ -4,9 +4,10 @@ set -e
 source $(dirname $0)/version
 cd $(dirname $0)/..
 
-CONST="-X github.com/rancher/strato/src/version.Version=${VERSION}"
+LDFLAGS="-X github.com/rancher/strato/src/version.Version=${VERSION} -s -w"
+ARCHES=(amd64 arm arm64)
 
-go build -ldflags="${CONST} -s -w" -o bin/strato src/main.go
-GOOS=linux GOARCH=amd64 go build -ldflags="${CONST} -s -w" -o bin/strato_amd64 src/main.go
-GOOS=linux GOARCH=arm go build -ldflags="${CONST} -s -w" -o bin/strato_arm src/main.go
-GOOS=linux GOARCH=arm64 go build -ldflags="${CONST} -s -w" -o bin/strato_arm64 src/main.go
+go build -ldflags="${LDFLAGS}" -o bin/strato src/main.go
+for ARCH in ${ARCHES[@]}; do
+    GOOS=linux GOARCH=${ARCH} go build -ldflags="${LDFLAGS}" -o bin/strato_${ARCH} src/main.go
+done
