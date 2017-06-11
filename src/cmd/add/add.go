@@ -1,6 +1,7 @@
 package add
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -19,13 +20,25 @@ import (
 	"github.com/rancher/strato/src/state"
 	"github.com/rancher/strato/src/utils"
 	"github.com/rancher/strato/src/version"
-	"gopkg.in/yaml.v2"
 )
 
 const (
 	// TODO: move to different package
 	repositoriesFile = "/etc/strato/repositories"
 )
+
+var Command = cli.Command{
+	Name:     "add",
+	Usage:    "add/install a package",
+	HideHelp: true,
+	Action:   Action,
+	Flags: []cli.Flag{
+		cli.StringFlag{
+			Name:  "dir",
+			Value: "/",
+		},
+	},
+}
 
 func Action(c *cli.Context) error {
 	dir := c.String("dir")
@@ -44,14 +57,14 @@ func Action(c *cli.Context) error {
 	var indexBytes []byte
 	var err error
 	if path.IsAbs(source) {
-		indexBytes, err = ioutil.ReadFile(path.Join(source, "index.yml"))
+		indexBytes, err = ioutil.ReadFile(path.Join(source, config.IndexName))
 		if err != nil {
 			log.Panic(err)
 			return err
 		}
 	} else {
 		u, err := url.Parse(source)
-		u.Path = path.Join(u.Path, "index.yml")
+		u.Path = path.Join(u.Path, config.IndexName)
 		resp, err := http.Get(u.String())
 		if err != nil {
 			log.Panic(err)
@@ -71,7 +84,7 @@ func Action(c *cli.Context) error {
 	}
 
 	index := map[string]config.Package{}
-	if err := yaml.Unmarshal(indexBytes, &index); err != nil {
+	if err := json.Unmarshal(indexBytes, &index); err != nil {
 		log.Panic(err)
 		return err
 	}

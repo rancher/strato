@@ -15,6 +15,7 @@ import (
 	"fmt"
 
 	"github.com/rancher/strato/src/cmd/extract"
+	"github.com/rancher/strato/src/config"
 	"github.com/rancher/strato/src/utils"
 	"github.com/urfave/cli"
 )
@@ -23,9 +24,9 @@ import (
 var Command = cli.Command{
 	Name:     "build",
 	Usage:    "Build image from source and extract the last layer from the built image",
-	Flags:    []cli.Flag{},
 	HideHelp: true,
 	Action:   buildAction,
+	Flags:    []cli.Flag{},
 }
 
 // Build the package from Dockerfile, strato.yml and prebuild.sh
@@ -34,7 +35,7 @@ func buildAction(c *cli.Context) error {
 	if _, err := os.Stat(filepath.Join(inDir, "Dockerfile")); os.IsNotExist(err) {
 		return err
 	}
-	if _, err := os.Stat(filepath.Join(inDir, "strato.yml")); os.IsNotExist(err) {
+	if _, err := os.Stat(filepath.Join(inDir, config.Filename)); os.IsNotExist(err) {
 		return err
 	}
 	outDir, err := utils.GetOutDir(c.Args().Get(1))

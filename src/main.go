@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 
+	"github.com/Sirupsen/logrus"
 	"github.com/rancher/strato/src/cmd/add"
 	"github.com/rancher/strato/src/cmd/build"
 	"github.com/rancher/strato/src/cmd/extract"
@@ -24,49 +25,14 @@ func main() {
 		},
 	}
 	app.Commands = []cli.Command{
-		{
-			Name:     "add",
-			Usage:    "add/install a package",
-			HideHelp: true,
-			Action:   add.Action,
-			Flags: []cli.Flag{
-				cli.StringFlag{
-					Name:  "dir",
-					Value: "/",
-				},
-			},
-		},
+		add.Command,
 		build.Command,
-		{
-			Name:            "extract",
-			Usage:           "Extract the last layer from the built image",
-			HideHelp:        true,
-			SkipFlagParsing: true,
-			Action:          extract.Action,
-		},
-		{
-			Name:            "index",
-			Usage:           "Generate index.yml file from XXXXX",
-			HideHelp:        true,
-			SkipFlagParsing: true,
-			Action:          index.Action,
-		},
-		{
-			Name:            "inspect",
-			HideHelp:        true,
-			SkipFlagParsing: true,
-			Action:          inspect.Action,
-			Hidden:          true,
-		},
-		{
-			Name:            "xf",
-			HideHelp:        true,
-			SkipFlagParsing: true,
-			Action:          xf.Action,
-			Hidden:          true,
-		},
+		extract.Command,
+		index.Command,
+		inspect.Command,
+		xf.Command,
 	}
 	if err := app.Run(os.Args); err != nil {
-		panic(err)
+		logrus.Fatal(err)
 	}
 }

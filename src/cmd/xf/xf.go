@@ -8,6 +8,14 @@ import (
 	"github.com/rancher/strato/src/utils"
 )
 
+var Command = cli.Command{
+	Name:            "xf",
+	HideHelp:        true,
+	SkipFlagParsing: true,
+	Action:          Action,
+	Hidden:          true,
+}
+
 func Action(c *cli.Context) error {
 	filename := c.Args().Get(0)
 
