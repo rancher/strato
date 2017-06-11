@@ -14,8 +14,8 @@ import (
 
 	"fmt"
 
-	"github.com/rancher/strato/src/cmd/extract"
 	"github.com/rancher/strato/src/config"
+	"github.com/rancher/strato/src/extract"
 	"github.com/rancher/strato/src/utils"
 	"github.com/urfave/cli"
 )
