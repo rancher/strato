@@ -3,9 +3,11 @@ set -e
 
 cd $(dirname $0)/..
 
-./scripts/build-images
+./scripts/build-bin
 
-echo
-echo "Images ready to push:"
-cat dist/images
-echo
+#./scripts/build-images
+
+#echo
+#echo "Images ready to push:"
+#cat dist/images
+#echo
