@@ -1,6 +1,7 @@
 package index
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"path"
 	"strings"
@@ -10,6 +11,14 @@ import (
 	"github.com/urfave/cli"
 	"gopkg.in/yaml.v2"
 )
+
+var Command = cli.Command{
+	Name:            "index",
+	Usage:           "Generate index.json file from XXXXX",
+	HideHelp:        true,
+	SkipFlagParsing: true,
+	Action:          Action,
+}
 
 func Action(c *cli.Context) error {
 	inDir := c.Args().Get(0)
@@ -52,10 +61,10 @@ func Action(c *cli.Context) error {
 		}
 	}
 
-	b, err := yaml.Marshal(packageMap)
+	b, err := json.Marshal(packageMap)
 	if err != nil {
 		return err
 	}
 
-	return ioutil.WriteFile(path.Join(outDir, "index.yml"), b, 0644)
+	return ioutil.WriteFile(path.Join(outDir, config.IndexName), b, 0644)
 }

@@ -5,7 +5,8 @@ import (
 )
 
 const (
-	Filename = "strato.yml"
+	Filename  = "strato.yml"
+	IndexName = "index.json"
 )
 
 type Package struct {

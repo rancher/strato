@@ -2,6 +2,13 @@ package inspect
 
 import "github.com/urfave/cli"
 
+var Command = cli.Command{
+	Name:            "inspect",
+	HideHelp:        true,
+	SkipFlagParsing: true,
+	Action:          Action,
+}
+
 func Action(c *cli.Context) error {
 	/*user := c.GlobalString("user")
 	image := c.Args()[0]

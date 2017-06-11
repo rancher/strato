@@ -28,6 +28,14 @@ type info struct {
 	Layers []string `json:"Layers"`
 }
 
+var Command = cli.Command{
+	Name:            "extract",
+	Usage:           "Extract the last layer from the built image",
+	HideHelp:        true,
+	SkipFlagParsing: true,
+	Action:          Action,
+}
+
 func Action(c *cli.Context) error {
 	inDir := c.Args().Get(0)
 	outDir, err := utils.GetOutDir(c.Args().Get(1))
@@ -38,7 +46,7 @@ func Action(c *cli.Context) error {
 }
 
 func Extract(inDir, outDir string) error {
-	configPath := path.Join(inDir, "strato.yml")
+	configPath := path.Join(inDir, config.Filename)
 
 	packageName := path.Base(inDir)
 	if strings.Contains(packageName, ".") {
