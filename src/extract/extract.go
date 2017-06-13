@@ -141,12 +141,23 @@ func generatePackage(b []byte, outDir, name string, pkg *config.Package, logFile
 
 	layerReader := bytes.NewReader(b)
 	if err := utils.TarForEach(layerReader, whitelist, blacklist, func(tarReader io.Reader, header *tar.Header) error {
+		if pkg.ExtractFolder != "" {
+			extractFolder := path.Clean(pkg.ExtractFolder)
+			extractFolder = strings.TrimLeft(extractFolder, "/")
+			if !strings.HasPrefix(header.Name, extractFolder) {
+				return nil
+			}
+			header.Name = strings.TrimLeft(header.Name, extractFolder)
+		}
+
 		fmt.Printf("%s | %s\n", name, header.Name)
 		fmt.Fprintf(logFile, "%s | %s\n", name, header.Name)
+
 		packageWriter.WriteHeader(header)
 		buf := new(bytes.Buffer)
 		io.Copy(buf, tarReader)
 		packageWriter.Write(buf.Bytes())
+
 		return nil
 	}); err != nil {
 		return err

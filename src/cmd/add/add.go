@@ -44,6 +44,20 @@ func Action(c *cli.Context) error {
 	dir := c.String("dir")
 	source := c.GlobalString("source")
 
+	stratoDir := path.Join(dir, "var/lib/strato/")
+	packagesFile := path.Join(stratoDir, "packages")
+
+	if _, err := os.Stat(stratoDir); os.IsNotExist(err) {
+		if err = os.MkdirAll(stratoDir, 0755); err != nil {
+			return err
+		}
+		if _, err = os.OpenFile(packagesFile, os.O_RDONLY|os.O_CREATE, 0666); err != nil {
+			return err
+		}
+	} else if err != nil {
+		return err
+	}
+
 	if source == "" {
 		repositoriesFileBytes, err := ioutil.ReadFile(repositoriesFile)
 		if err != nil {

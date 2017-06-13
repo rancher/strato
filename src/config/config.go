@@ -15,11 +15,12 @@ type Package struct {
 	Description  string   `yaml:"description,omitempty"`
 	Dependencies []string `yaml:"dependencies,omitempty"`
 	// TODO: implement include this for Package
-	Include     []string              `yaml:"include,omitempty"`
-	Exclude     []string              `yaml:"exclude,omitempty"`
-	Subpackages map[string]Subpackage `yaml:"subpackages,omitempty"`
-	Precmd      string                `yaml:"precmd,omitempty"`
-	Postcmd     string                `yaml:"postcmd,omitempty"`
+	Include       []string              `yaml:"include,omitempty"`
+	Exclude       []string              `yaml:"exclude,omitempty"`
+	Subpackages   map[string]Subpackage `yaml:"subpackages,omitempty"`
+	Precmd        string                `yaml:"precmd,omitempty"`
+	Postcmd       string                `yaml:"postcmd,omitempty"`
+	ExtractFolder string                `yaml:"extract_folder,omitempty"`
 }
 
 type Subpackage struct {
