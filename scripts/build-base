@@ -5,44 +5,9 @@ source $(dirname $0)/version
 cd $(dirname $0)/..
 
 BUILD=build
-ASSETS=assets
 
-layout_root () {
-    mkdir -p $1
-
-    install -m 0755 -d \
-      $1/etc \
-      $1/etc/ssl \
-      $1/etc/strato \
-      $1/home \
-      $1/run \
-      $1/usr \
-      $1/usr/bin \
-      $1/usr/sbin \
-      $1/usr/share \
-      $1/var/cache \
-      $1/var/cache/misc \
-      $1/var/lib \
-      $1/var/lib/strato \
-      $1/var/lib/misc \
-      $1/var/local \
-      $1/var/log \
-      $1/var/run
-
-    touch $1/var/lib/strato/packages
-    # TODO: make this customizable
-    echo "https://github.com/rancher/strato-packages/raw/master/${VERSION}/${ARCH}/" > $1/etc/strato/repositories
-    install -m 0555 -d $1/var/empty
-    install -m 0700 -d $1/root
-    install -m 1777 -d $1/tmp $1/var/tmp
-
-    cp -r ${ASSETS}/certs $1/etc/ssl
-    cp ${ASSETS}/group ${ASSETS}/passwd ${ASSETS}/profile ${ASSETS}/shadow ${ASSETS}/shells $1/etc
-}
-
-layout_root ${BUILD}
-
-./bin/strato --source=${PWD}/dist/ add --dir=${BUILD} glibc busybox
+mkdir -p ${BUILD}
+./bin/strato --source=${PWD}/dist/ add --dir=${BUILD} base-layout ca-certificates glibc busybox
 
 cd ${BUILD}
 tar -cvf rootfs.tar .
