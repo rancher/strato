@@ -6,6 +6,7 @@ import (
 	"github.com/Sirupsen/logrus"
 	"github.com/rancher/strato/src/cmd/add"
 	"github.com/rancher/strato/src/cmd/build"
+	"github.com/rancher/strato/src/cmd/buildall"
 	"github.com/rancher/strato/src/cmd/extract"
 	"github.com/rancher/strato/src/cmd/index"
 	"github.com/rancher/strato/src/cmd/inspect"
@@ -27,6 +28,7 @@ func main() {
 	app.Commands = []cli.Command{
 		add.Command,
 		build.Command,
+		buildall.Command,
 		extract.Command,
 		index.Command,
 		inspect.Command,
