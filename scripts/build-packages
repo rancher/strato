@@ -12,20 +12,5 @@ cd $(dirname $0)/..
 
 dapper -d --build -f Dockerfile.build -- -t strato-build .
 
-mkdir -p dist
-
 ./bin/strato index ${BASE} dist
-
-for i in $BASE/*; do
-    name=$(basename ${i})
-
-    echo Building ${i}
-
-    if ./bin/strato build ${i} ./dist; then
-        echo "OK ${i}"
-    elif [ "$?" != "42" ]; then
-        exit 1
-    else
-        echo "Skipping ${i}"
-    fi
-done
+./bin/strato build-all ${BASE} dist
