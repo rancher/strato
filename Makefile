@@ -1,4 +1,4 @@
-TARGETS := $(shell ls scripts | grep -vE '(webserver|build-packages|clean)')
+TARGETS := $(shell ls scripts | grep -vE '(webserver|build-packages|clean|dev)')
 
 .dapper:
 	@echo Downloading dapper
@@ -13,6 +13,9 @@ $(TARGETS): .dapper
 build-packages: .dapper stopweb webserver
 	./.dapper -m bind build-packages 2>&1 | tee  dist/build-packages.log
 	docker rm -f strato-server || true
+
+dev: build-bin
+	./scripts/dev
 
 webserver:
 	./scripts/webserver
