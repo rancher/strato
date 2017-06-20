@@ -1,0 +1,25 @@
+#!/bin/bash
+set -ex
+
+# lets default ARCH
+if [ "$ARCH" == "" ]; then
+	ARCH=$(go env | grep GOARCH)
+fi
+
+BASE=packages
+
+if [ -n "$1" ]; then
+    BASE=$1
+fi
+
+cd $(dirname $0)/..
+source scripts/version
+source scripts/webserver
+
+#dapper -d --build -f Dockerfile.build -- -t strato-build .
+docker build -f Dockerfile.build -t strato-build .
+
+./bin/strato index ${BASE} dist
+./bin/strato build-all ${BASE} dist
+
+./scripts/build-base

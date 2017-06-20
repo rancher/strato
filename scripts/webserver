@@ -4,6 +4,11 @@ set -e
 
 cd $(dirname $0)/..
 
+if docker inspect --format "{{.State.Status}}"  strato-server ; then
+	# we don't know if this was started in a different dir..
+	docker rm -f strato-server
+fi
+
 mkdir -p dist
 
 # for rancher os test builds
