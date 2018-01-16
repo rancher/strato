@@ -10,28 +10,28 @@ const (
 )
 
 type Package struct {
-	License      string   `yaml:"license,omitempty"`
-	Version      string   `yaml:"version,omitempty"`
-	Description  string   `yaml:"description,omitempty"`
-	Dependencies []string `yaml:"dependencies,omitempty"`
+	License      string   `yaml:"license,omitempty" json:"license,omitempty"`
+	Version      string   `yaml:"version,omitempty" json:"license,omitempty"`
+	Description  string   `yaml:"description,omitempty" json:"description,omitempty"`
+	Dependencies []string `yaml:"dependencies,omitempty" json:"dependencies,omitempty"`
 	// TODO: implement include this for Package
-	Include       []string              `yaml:"include,omitempty"`
-	Exclude       []string              `yaml:"exclude,omitempty"`
-	Subpackages   map[string]Subpackage `yaml:"subpackages,omitempty"`
-	Precmd        string                `yaml:"precmd,omitempty"`
-	Postcmd       string                `yaml:"postcmd,omitempty"`
-	ExtractFolder string                `yaml:"extract_folder,omitempty"`
+	Include       []string              `yaml:"include,omitempty" json:"include,omitempty"`
+	Exclude       []string              `yaml:"exclude,omitempty" json:"exclude,omitempty"`
+	Subpackages   map[string]Subpackage `yaml:"subpackages,omitempty" json:"subpackages,omitempty"`
+	Precmd        string                `yaml:"precmd,omitempty" json:"precmd,omitempty"`
+	Postcmd       string                `yaml:"postcmd,omitempty" json:"postcmd,omitempty"`
+	ExtractFolder string                `yaml:"extract_folder,omitempty" json:"extract_folder,omitempty"`
 }
 
 type Subpackage struct {
-	License      string   `yaml:"license,omitempty"`
-	Version      string   `yaml:"version,omitempty"`
-	Description  string   `yaml:"description,omitempty"`
-	Dependencies []string `yaml:"dependencies,omitempty"`
-	Include      []string `yaml:"include,omitempty"`
-	Exclude      []string `yaml:"exclude,omitempty"`
-	Precmd       string   `yaml:"precmd,omitempty"`
-	Postcmd      string   `yaml:"postcmd,omitempty"`
+	License      string   `yaml:"license,omitempty" json:"license,omitempty"`
+	Version      string   `yaml:"version,omitempty" json:"version,omitempty"`
+	Description  string   `yaml:"description,omitempty" json:"description,omitempty"`
+	Dependencies []string `yaml:"dependencies,omitempty" json:"dependencies,omitempty"`
+	Include      []string `yaml:"include,omitempty" json:"include,omitempty"`
+	Exclude      []string `yaml:"exclude,omitempty" json:"exclude,omitempty"`
+	Precmd       string   `yaml:"precmd,omitempty" json:"precmd,omitempty"`
+	Postcmd      string   `yaml:"postcmd,omitempty" json:"postcmd,omitempty"`
 }
 
 func GenerateWhiteAndBlackLists(pkg *Package, subpackage string) ([]*regexp.Regexp, []*regexp.Regexp, error) {
