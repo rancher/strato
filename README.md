@@ -1,18 +1,23 @@
 # strato
 
-strato is a package manager and minimal container base image. All packages in strato are created by a simple and containerized build process. The latest version is 0.0.2.
+strato is a package manager and minimal container base image. All packages in strato are created by a simple and containerized build process.
 
 ```
-docker run -it --rm rancher/strato:0.0.2 sh
-/ # strato --source="https://github.com/rancher/strato-packages/raw/master/0.0.2/$(get-arch)/" add bash
-Installing package https://github.com/rancher/strato-packages/raw/master/0.0.2/amd64/bash.tar.gz:dev/bin
-/bin/bash
-/bin/bashbug
+docker run -it rancher/strato
+/ # strato add jq
+Installing package https://github.com/rancher/strato-packages/raw/master/0.0.3/amd64/jq.tar.gz:0.0.3
 /usr
+/usr/bin
+/usr/bin/jq
+/usr/lib
+/usr/lib/libjq.la
+/usr/lib/libjq.so
+/usr/lib/libjq.so.1
+/usr/lib/libjq.so.1.0.4
 /usr/share
-1.015647 mb
-/ # bash
-bash-4.3#
+1.178437 mb
+/ # jq --version
+jq-1.5
 ```
 
 ## How packages are built
