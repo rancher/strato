@@ -8,6 +8,8 @@ BUILD=build
 
 mkdir -p ${BUILD}
 ./bin/strato --source=${PWD}/dist/ add --dir=${BUILD} base-layout ca-certificates glibc busybox
+# TODO: this should be configurable
+echo "https://github.com/rancher/strato-packages/raw/master/${VERSION}/${ARCH}/" > ${BUILD}/etc/strato/repositories
 
 cd ${BUILD}
 tar -cvf rootfs.tar .
