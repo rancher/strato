@@ -7,7 +7,7 @@ cd $(dirname $0)/..
 BUILD=build
 
 mkdir -p ${BUILD}
-./bin/strato --source=${PWD}/dist/ add --dir=${BUILD} base-layout ca-certificates glibc busybox
+./bin/strato --source=${PWD}/dist/${ARCH}/ add --dir=${BUILD} base-layout ca-certificates glibc busybox
 # TODO: this should be configurable
 echo "https://github.com/rancher/strato-packages/raw/master/${VERSION}/${ARCH}/" > ${BUILD}/etc/strato/repositories
 
