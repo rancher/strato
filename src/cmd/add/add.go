@@ -10,7 +10,6 @@ import (
 	"net/url"
 	"os"
 	"path"
-	"runtime"
 	"strings"
 	"sync"
 
@@ -66,7 +65,6 @@ func Action(c *cli.Context) error {
 		}
 		source = strings.Trim(string(repositoriesFileBytes), "\n")
 	}
-	source = source + "/" + runtime.GOARCH + "/"
 
 	var indexBytes []byte
 	var err error
