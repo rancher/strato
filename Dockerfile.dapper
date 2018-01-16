@@ -1,12 +1,7 @@
 FROM ubuntu:16.04
 # FROM arm64=aarch64/ubuntu:16.04 arm=armhf/ubuntu:16.04
 
-# get the apt-cacher proxy set
-ARG APTPROXY=
-
-RUN echo "Acquire::http { Proxy \"$APTPROXY\"; };" >> /etc/apt/apt.conf.d/01proxy \
-    && cat /etc/apt/apt.conf.d/01proxy \
-    && apt-get update \
+RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         ca-certificates \
         curl \
@@ -78,8 +73,6 @@ RUN go get github.com/rancher/trash
 RUN go get github.com/golang/lint/golint
 
 RUN go get gopkg.in/check.v1
-# TODO: needs a version
-RUN go get github.com/docker/docker || true
 
 # Install dapper
 RUN curl -sL https://releases.rancher.com/dapper/latest/dapper-`uname -s`-`uname -m | sed 's/arm.*/arm/'` > /usr/bin/dapper && \

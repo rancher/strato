@@ -12,7 +12,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"os/exec"
 	"path"
 	"path/filepath"
 	"strings"
@@ -166,14 +165,6 @@ func generatePackage(b []byte, outDir, name string, pkg *config.Package, logFile
 	packageWriter.Close()
 	gzipWriter.Close()
 	f.Close()
-
-	cmd := exec.Command("sh", "-c", "zcat "+tgzFileName+" | docker import - stratopkg/"+name)
-	fmt.Printf("Running: %v\n", cmd.Args)
-	fmt.Fprintf(logFile, "Running: %v\n", cmd.Args)
-	cmd.Stdout, cmd.Stderr = os.Stdout, os.Stderr
-	if err := cmd.Run(); err != nil {
-		return err
-	}
 
 	return nil
 }
